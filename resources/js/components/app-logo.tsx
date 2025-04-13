@@ -1,4 +1,4 @@
-import AppLogoIcon from './app-logo-icon';
+import AppLogoIcon from './app-logo-icon'
 
 export default function AppLogo() {
     return (
@@ -10,5 +10,5 @@ export default function AppLogo() {
                 <span className="mb-0.5 truncate leading-none font-semibold">Laravel Starter Kit</span>
             </div>
         </>
-    );
+    )
 }
