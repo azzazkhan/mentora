@@ -1,0 +1,15 @@
+{
+    "preset": "laravel",
+    "exclude": ["bootstrap", "public", "storage"],
+    "rules": {
+        "align_multiline_comment": {
+            "comment_type": "phpdocs_only"
+        },
+        "array_indentation": true,
+        "array_push": true,
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "single_blank_line_at_eof": true
+    }
+}
