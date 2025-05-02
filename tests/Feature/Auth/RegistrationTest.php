@@ -3,13 +3,13 @@
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('registration screen can be rendered', function () {
-    $response = $this->get('/register');
+    $response = $this->get(route('auth.register'));
 
     $response->assertStatus(200);
-});
+})->group('web', 'auth');
 
 test('new users can register', function () {
-    $response = $this->post('/register', [
+    $response = $this->post(route('auth.register'), [
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
@@ -18,4 +18,4 @@ test('new users can register', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
-});
+})->group('web', 'auth');
