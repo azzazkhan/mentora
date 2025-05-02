@@ -34,9 +34,11 @@ class AppServiceProvider extends ServiceProvider
         Password::defaults(function () {
             $rule = Password::min(8)->letters();
 
-            return $this->app->environment('production')
-                ? $rule->mixedCase()->numbers()->symbols()->uncompromised()
-                : $rule;
+            if ($this->app->environment('production')) {
+                return $rule->mixedCase()->numbers()->symbols()->uncompromised();
+            }
+
+            return $rule;
         });
 
         JsonResource::withoutWrapping();
