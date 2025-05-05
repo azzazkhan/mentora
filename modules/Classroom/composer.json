@@ -1,0 +1,21 @@
+{
+    "name": "modules/classroom",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Classroom\\": "app/",
+            "Modules\\Classroom\\Database\\Factories\\": "database/factories/",
+            "Modules\\Classroom\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Classroom\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}

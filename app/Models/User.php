@@ -6,9 +6,14 @@ namespace App\Models;
 
 use App\Concerns\Eloquent\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Classroom\Models\Classroom;
+use Modules\Classroom\Models\Enrollment;
+use Modules\User\Models\Teacher;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -48,5 +53,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the teacher associated with the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Teacher>
+     */
+    public function teacher(): HasOne
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    /**
+     * Get the classrooms the user is enrolled in.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Classroom>
+     */
+    public function classrooms(): BelongsToMany
+    {
+        return $this->belongsToMany(Classroom::class, 'enrollments')->using(Enrollment::class);
     }
 }
