@@ -13,6 +13,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::prefix('auth')->name('auth.')->group(base_path('routes/auth.php'));
-
 require __DIR__ . '/settings.php';

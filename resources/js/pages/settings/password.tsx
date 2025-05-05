@@ -31,7 +31,7 @@ export default function Password() {
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault()
 
-        put(route('auth.password.update'), {
+        put(route('auth::password.update'), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

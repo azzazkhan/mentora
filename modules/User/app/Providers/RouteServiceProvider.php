@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Providers;
+namespace Modules\User\Providers;
 
 use Azzazkhan\ModularLaravel\Services\RoutingService;
 use Illuminate\Support\ServiceProvider;
@@ -18,8 +18,8 @@ class RouteServiceProvider extends ServiceProvider
         // Only load web routes if enabled
         if (file_exists($path = __DIR__ . '/../../routes/web.php')) {
             $router->registerWebRoutes(function () use ($path) {
-                Route::prefix('auth')
-                    ->name('auth::')
+                Route::prefix('users')
+                    ->name('user::')
                     ->group($path);
             });
         }
@@ -27,8 +27,8 @@ class RouteServiceProvider extends ServiceProvider
         // Only load API routes if enabled
         if (file_exists($path = __DIR__ . '/../../routes/api.php')) {
             $router->registerApiRoutes(function () use ($path) {
-                Route::prefix('auth')
-                    ->name('auth::api.')
+                Route::prefix('users')
+                    ->name('user::api.')
                     ->group($path);
             });
         }
