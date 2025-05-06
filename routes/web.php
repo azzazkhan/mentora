@@ -13,4 +13,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::get('login', fn() => response()->redirectToRoute('auth::login'))->name('login');
+
 require __DIR__ . '/settings.php';
