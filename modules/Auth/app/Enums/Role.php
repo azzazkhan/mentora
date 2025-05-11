@@ -2,9 +2,10 @@
 
 namespace Modules\Auth\Enums;
 
+use App\Contracts\HasLabel;
 use ArchTech\Enums\Values;
 
-enum Role: string
+enum Role: string implements HasLabel
 {
     use Values;
 
@@ -12,6 +13,16 @@ enum Role: string
     case Admin = 'admin';
     case Instructor = 'instructor';
     case Student = 'student';
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            self::SuperAdmin => 'Super Admin',
+            self::Admin => 'Admin',
+            self::Instructor => 'Instructor',
+            self::Student => 'Student',
+        };
+    }
 
     /**
      * Get the priority order the the role (smaller number has higher priority).
