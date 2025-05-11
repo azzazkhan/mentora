@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\Enums\Role;
 use Modules\Classroom\Models\Classroom;
 use Modules\Classroom\Models\Enrollment;
 use Modules\User\Models\Teacher;
@@ -28,6 +29,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'avatar',
         'email',
         'password',
     ];
@@ -73,5 +75,13 @@ class User extends Authenticatable
     public function classrooms(): BelongsToMany
     {
         return $this->belongsToMany(Classroom::class, 'enrollments')->using(Enrollment::class);
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        //
     }
 }

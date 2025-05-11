@@ -9,23 +9,9 @@ const data = {
     navMain: [
         {
             title: 'Users',
-            url: '/users',
+            url: route('dashboard.users.index', {}, false),
             icon: User,
-            isActive: true,
-            items: [
-                {
-                    title: 'All Users',
-                    url: '/users'
-                },
-                {
-                    title: 'Students',
-                    url: '/users/students'
-                },
-                {
-                    title: 'Teachers',
-                    url: '/users/teachers'
-                }
-            ]
+            isActive: true
         },
         {
             title: 'Classrooms',
