@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
 
             $table->string('specialization');
+            $table->foreignId('user_id')->constrained('users');
 
             $table->timestamps();
         });

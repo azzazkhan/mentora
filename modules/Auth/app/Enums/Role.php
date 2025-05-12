@@ -11,7 +11,7 @@ enum Role: string implements HasLabel
 
     case SuperAdmin = 'super-admin';
     case Admin = 'admin';
-    case Instructor = 'instructor';
+    case Teacher = 'teacher';
     case Student = 'student';
 
     public function getLabel(): ?string
@@ -19,7 +19,7 @@ enum Role: string implements HasLabel
         return match ($this) {
             self::SuperAdmin => 'Super Admin',
             self::Admin => 'Admin',
-            self::Instructor => 'Instructor',
+            self::Teacher => 'Teacher',
             self::Student => 'Student',
         };
     }
@@ -34,7 +34,7 @@ enum Role: string implements HasLabel
         return match ($this) {
             self::SuperAdmin => 0,
             self::Admin => 1,
-            self::Instructor => 2,
+            self::Teacher => 2,
             self::Student => 3,
         };
     }
@@ -49,7 +49,7 @@ enum Role: string implements HasLabel
         return match ($this) {
             self::SuperAdmin => [],
             self::Admin => [],
-            self::Instructor => [],
+            self::Teacher => [],
             self::Student => [],
         };
     }

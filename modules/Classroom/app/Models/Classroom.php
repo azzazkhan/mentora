@@ -9,13 +9,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Classroom\Concerns\Eloquent\HasAttributes;
+use Modules\Classroom\Concerns\Eloquent\HasQueryScopes;
 use Modules\Classroom\Database\Factories\ClassroomFactory;
+use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Events\ClassroomCreated;
+use Modules\Classroom\Events\ClassroomUpdated;
 use Modules\User\Models\Teacher;
 
 class Classroom extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, HasQueryScopes, HasAttributes;
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +48,9 @@ class Classroom extends Model
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'status' => Status::Pending,
+    ];
 
     /**
      * The event map for the model.
@@ -53,6 +59,7 @@ class Classroom extends Model
      */
     protected $dispatchesEvents = [
         'created' => ClassroomCreated::class,
+        'updated' => ClassroomUpdated::class,
     ];
 
     /**
@@ -63,8 +70,11 @@ class Classroom extends Model
     protected function casts(): array
     {
         return [
-            'start_at' => 'datetime',
-            'end_at' => 'datetime',
+            'status' => Status::class,
+            'registration_started_at' => 'datetime',
+            'registration_ended_at' => 'datetime',
+            'started_at' => 'datetime',
+            'ended_at' => 'datetime',
         ];
     }
 
@@ -95,7 +105,52 @@ class Classroom extends Model
      */
     public function students(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'enrollments')->using(Enrollment::class);
+        return $this
+            ->belongsToMany(User::class, 'enrollments')
+            ->using(Enrollment::class)
+            ->withTimestamps()
+            ->as('enrollment')
+            ->withPivot(['enrolled_at', /* 'transaction_id' */]);
+    }
+
+    /**
+     * Get the pending students enrolled in the classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
+     */
+    public function pendingStudents(): BelongsToMany
+    {
+        return $this->students()->wherePivotNull('enrolled_at');
+    }
+
+    /**
+     * Get the enrolled students in the classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
+     */
+    public function enrolledStudents(): BelongsToMany
+    {
+        return $this->students()->wherePivotNotNull('enrolled_at');
+    }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function routeKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
+     * Get the route key.
+     *
+     * @return string
+     */
+    public function getRouteKey(): string
+    {
+        return $this->uuid;
     }
 
     /**

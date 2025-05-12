@@ -13,12 +13,18 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
 
             $table->foreignId('classroom_id')->constrained('classrooms');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('enrolled_at')->nullable();
 
+            // TODO: Create transactions table
+            // $table->foreignId('transaction_id')->nullable()->constrained('transactions');
+
             $table->timestamps();
+
+            $table->unique(['classroom_id', 'user_id']);
         });
     }
 

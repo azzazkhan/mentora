@@ -78,6 +78,46 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the classrooms the user is enrolled in.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Classroom>
+     */
+    public function enrolledClassrooms(): BelongsToMany
+    {
+        return $this->classrooms()->wherePivotNotNull('enrolled_at');
+    }
+
+    /**
+     * Get the classrooms the user is enrolled in.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Classroom>
+     */
+    public function pendingClassrooms(): BelongsToMany
+    {
+        return $this->classrooms()->wherePivotNull('enrolled_at');
+    }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function routeKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
+     * Get the route key.
+     *
+     * @return string
+     */
+    public function getRouteKey(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
      * The "booted" method of the model.
      */
     protected static function booted(): void

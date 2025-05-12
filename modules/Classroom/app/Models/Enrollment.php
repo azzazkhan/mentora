@@ -2,12 +2,15 @@
 
 namespace Modules\Classroom\Models;
 
+use App\Concerns\Eloquent\HasUuid;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Enrollment extends Pivot
 {
+    use HasUuid;
+
     /**
      * The table associated with the model.
      *
