@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Classroom\Enums\Status;
 
 return new class extends Migration
 {
@@ -15,14 +16,19 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
 
             $table->string('icon')->nullable();
             $table->string('cover')->nullable();
             $table->string('color')->nullable();
 
-            $table->timestamp('start_at')->nullable();
-            $table->timestamp('end_at')->nullable();
+            $table->timestamp('registration_started_at');
+            $table->timestamp('registration_ended_at');
+
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('ended_at')->nullable();
+
+            $table->enum('status', Status::values())->index();
 
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->timestamps();

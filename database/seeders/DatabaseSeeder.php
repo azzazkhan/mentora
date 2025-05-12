@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Console\Commands\Setup\CreateRolesAndPermissions;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use Modules\Classroom\Database\Seeders\ClassroomSeeder;
+use Modules\Classroom\Database\Seeders\EnrollmentSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            ClassroomSeeder::class,
+            EnrollmentSeeder::class,
         ]);
     }
 }
