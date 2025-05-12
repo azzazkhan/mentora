@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->string('color')->nullable();
 
+            $table->unsignedInteger('fee');
+
             $table->timestamp('registration_started_at');
             $table->timestamp('registration_ended_at');
 

@@ -70,6 +70,7 @@ class Classroom extends Model
     protected function casts(): array
     {
         return [
+            'fee' => 'integer',
             'status' => Status::class,
             'registration_started_at' => 'datetime',
             'registration_ended_at' => 'datetime',
