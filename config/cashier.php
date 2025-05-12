@@ -5,6 +5,8 @@ use Laravel\Cashier\Invoices\DompdfInvoiceRenderer;
 
 return [
 
+    'enabled' => env('CASHIER_ENABLED', true),
+
     /*
     |--------------------------------------------------------------------------
     | Stripe Keys

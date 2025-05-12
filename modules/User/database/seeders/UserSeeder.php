@@ -5,6 +5,8 @@ namespace Modules\User\Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Laravel\Cashier\Cashier;
 use Modules\Auth\Enums\Role;
 use Modules\User\Models\Teacher;
 
@@ -15,6 +17,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->deleteStripeCustomers();
+
         User::factory()
             ->create([
                 'name' => 'Administrator',
@@ -22,14 +26,34 @@ class UserSeeder extends Seeder
             ])
             ->assignRole(Role::SuperAdmin);
 
-        User::factory()->count(2)->create()->each(fn(User $user) => $user->assignRole(Role::Admin));
+        User::factory()->count(2)->create()->each->assignRole(Role::Admin);
 
         User::factory()
             ->count(5)
             ->has(Teacher::factory())
             ->create()
-            ->each(fn(User $user) => $user->assignRole(Role::Teacher));
+            ->each
+            ->assignRole(Role::Teacher);
 
-        User::factory()->count(30)->create()->each(fn(User $user) => $user->assignRole(Role::Student));
+        User::factory(30)->create()->each->assignRole(Role::Student);
+    }
+
+    protected function deleteStripeCustomers(): void
+    {
+        if (! config('cashier.enabled')) {
+            return;
+        }
+
+        while (true) {
+            $customers = Cashier::stripe()->customers->all(['limit' => 100]);
+
+            foreach ($customers['data'] as $customer) {
+                Cashier::stripe()->customers->delete($customer['id']);
+            }
+
+            if (! $customers['has_more']) {
+                break;
+            }
+        }
     }
 }
