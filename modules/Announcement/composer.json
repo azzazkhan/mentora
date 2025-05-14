@@ -1,0 +1,21 @@
+{
+    "name": "modules/announcement",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Announcement\\": "app/",
+            "Modules\\Announcement\\Database\\Factories\\": "database/factories/",
+            "Modules\\Announcement\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Announcement\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}

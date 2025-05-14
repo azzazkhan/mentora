@@ -6,6 +6,7 @@ use App\Console\Commands\Setup\CreateRolesAndPermissions;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use Modules\Announcement\Database\Seeders\AnnouncementSeeder;
 use Modules\Classroom\Database\Seeders\ClassroomSeeder;
 use Modules\Classroom\Database\Seeders\EnrollmentSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ClassroomSeeder::class,
             EnrollmentSeeder::class,
+            AnnouncementSeeder::class,
         ]);
     }
 }

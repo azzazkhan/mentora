@@ -1,19 +1,18 @@
 <?php
 
-namespace Modules\User\Models;
+namespace Modules\Announcement\Models;
 
 use App\Concerns\Eloquent\HasUuid;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Modules\Announcement\Models\Announcement;
+use Modules\Announcement\Database\Factories\AnnouncementFactory;
+use Modules\Announcement\Events\AnnouncementCreated;
 use Modules\Classroom\Models\Classroom;
-use Modules\User\Database\Factories\TeacherFactory;
+use Modules\User\Models\Teacher;
 
-class Teacher extends Model
+class Announcement extends Model
 {
     use HasFactory, HasUuid;
 
@@ -23,7 +22,9 @@ class Teacher extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'specialization',
+        'title',
+        'content',
+        'edited',
     ];
 
     /**
@@ -38,14 +39,18 @@ class Teacher extends Model
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'edited' => false,
+    ];
 
     /**
      * The event map for the model.
      *
      * @var array<string, string>
      */
-    protected $dispatchesEvents = [];
+    protected $dispatchesEvents = [
+        'created' => AnnouncementCreated::class,
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -54,7 +59,9 @@ class Teacher extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'edited' => 'boolean',
+        ];
     }
 
     /**
@@ -64,37 +71,27 @@ class Teacher extends Model
      */
     protected static function newFactory(): Factory
     {
-        return new TeacherFactory;
+        return new AnnouncementFactory;
     }
 
     /**
-     * Get the user associated with the teacher.
+     * Get the teacher who made the announcement.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Teacher>
      */
-    public function user(): BelongsTo
+    public function teacher(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     /**
-     * Get the classrooms associated with the teacher.
+     * Get the classroom in which the announcement was made.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Classroom>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Classroom>
      */
-    public function classrooms(): HasMany
+    public function classroom(): BelongsTo
     {
-        return $this->hasMany(Classroom::class);
-    }
-
-    /**
-     * Get the announcements associated with the teacher.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Announcement>
-     */
-    public function announcements(): HasMany
-    {
-        return $this->hasMany(Announcement::class);
+        return $this->belongsTo(Classroom::class);
     }
 
     /**
