@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Assignment\Models\Assignment;
 use Modules\Classroom\Concerns\Eloquent\HasAttributes;
 use Modules\Classroom\Concerns\Eloquent\HasQueryScopes;
 use Modules\Classroom\Database\Factories\ClassroomFactory;
@@ -131,6 +133,16 @@ class Classroom extends Model
     public function enrolledStudents(): BelongsToMany
     {
         return $this->students()->wherePivotNotNull('enrolled_at');
+    }
+
+    /**
+     * Get the assignments in the classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Assignment>
+     */
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(Assignment::class);
     }
 
     /**

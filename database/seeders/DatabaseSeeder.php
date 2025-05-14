@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Announcement\Database\Seeders\AnnouncementSeeder;
 use Modules\Assignment\Database\Seeders\AssignmentSeeder;
+use Modules\Assignment\Database\Seeders\SubmissionSeeder;
 use Modules\Classroom\Database\Seeders\ClassroomSeeder;
 use Modules\Classroom\Database\Seeders\EnrollmentSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             EnrollmentSeeder::class,
             AnnouncementSeeder::class,
             AssignmentSeeder::class,
+            SubmissionSeeder::class,
         ]);
     }
 }
