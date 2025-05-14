@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Announcement\Http\Requests;
+namespace Modules\Assignment\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAnnouncementRequest extends FormRequest
+class DeleteAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class UpdateAnnouncementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => ['required', 'string'],
+            //
         ];
     }
 }
