@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Assignment\Database\Factories\SubmissionFactory;
+use Modules\Assignment\Enums\Submission\Status;
 
 class Submission extends Model
 {
@@ -36,7 +37,8 @@ class Submission extends Model
      * @var array
      */
     protected $attributes = [
-        'turn_in' => false,
+        'status' => Status::Pending,
+        'is_late' => false,
     ];
 
     /**
@@ -54,7 +56,10 @@ class Submission extends Model
     protected function casts(): array
     {
         return [
-            'turn_in' => 'boolean',
+            'status' => Status::class,
+            'grade' => 'integer',
+            'is_late' => 'boolean',
+            'submitted_at' => 'datetime',
         ];
     }
 

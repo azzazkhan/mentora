@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Assignment\Database\Factories\AssignmentFactory;
 use Modules\Assignment\Events\AssignmentCreated;
 use Modules\Classroom\Models\Classroom;
@@ -94,6 +95,16 @@ class Assignment extends Model
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    /**
+     * Get the submissions for the assignment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Submission>
+     */
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
     }
 
     /**
