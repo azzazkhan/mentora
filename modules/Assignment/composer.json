@@ -1,0 +1,21 @@
+{
+    "name": "modules/assignment",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Assignment\\": "app/",
+            "Modules\\Assignment\\Database\\Factories\\": "database/factories/",
+            "Modules\\Assignment\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Assignment\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}

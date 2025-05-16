@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
                 'type' => 'Bearer',
                 'expires_at' => $token->accessToken->expires_at,
             ],
-            'user' => (new UserResource($user))->toArray($request),
+            'user' => new UserResource($user),
         ]);
     }
 

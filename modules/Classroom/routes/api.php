@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Announcement\Http\Controllers\API\AnnouncementController;
+use Modules\Assignment\Http\Controllers\API\AssignmentController;
 use Modules\Classroom\Http\Controllers\API\ClassroomController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -13,6 +14,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::prefix('announcements')->name('announcements.')->group(function () {
             Route::get('', [AnnouncementController::class, 'index'])->name('index');
             Route::post('', [AnnouncementController::class, 'store'])->name('store');
+        });
+
+        Route::prefix('assignments')->name('assignments.')->group(function () {
+            Route::get('', [AssignmentController::class, 'index'])->name('index');
+            Route::post('', [AssignmentController::class, 'store'])->name('store');
         });
     });
 });
