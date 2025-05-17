@@ -25,6 +25,7 @@ class Attachment extends Model
         'size',
         'mime_type',
         'disk',
+        'path',
     ];
 
     /**

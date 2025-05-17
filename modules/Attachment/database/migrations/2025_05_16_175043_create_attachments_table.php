@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('size');
             $table->string('mime_type');
             $table->string('disk');
+            $table->string('path');
 
             $table->nullableMorphs('attachable');
             $table->foreignId('user_id')->constrained('users');
