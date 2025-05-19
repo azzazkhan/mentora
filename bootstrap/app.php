@@ -2,10 +2,15 @@
 
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -36,6 +41,20 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions
+            ->render(function (ModelNotFoundException|NotFoundHttpException $e, Request $request) {
+                if ($request->wantsJson()) {
+                    return response()->json([
+                        'message' => 'The requested resource does not exist'
+                    ], Response::HTTP_NOT_FOUND);
+                }
+            })
+            ->render(function (HttpException $e, Request $request) {
+                if ($e->getStatusCode() === 403 && $request->wantsJson()) {
+                    return response()->json([
+                        'message' => 'You are not allowed to perform this action'
+                    ], Response::HTTP_FORBIDDEN);
+                }
+            });
     })
     ->create();
