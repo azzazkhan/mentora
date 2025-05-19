@@ -1,12 +1,19 @@
 <?php
 
+use App\Enums\Pagination;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 if (!function_exists('carbon')) {
@@ -135,7 +142,7 @@ if (!function_exists('prefix_table')) {
     /**
      * Adds table prefix to specified column name(s).
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|class-string  $table
+     * @param  Model|string|class-string  $table
      * @param  string|array  $columns
      * @param  bool  $wrap
      * @return array
@@ -164,7 +171,7 @@ if (! function_exists('get_columns')) {
     /**
      * Get columns for specified model/table.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|class-string  $model
+     * @param  Model|string|class-string  $model
      * @param  array<string>  $only
      * @param  array<string>  $except
      * @param  bool  $prefix
@@ -252,5 +259,41 @@ if (! function_exists('clamp')) {
         $max = max($min, $max);
 
         return $default < $min ? $min : ($default > $max ? $max : $default);
+    }
+}
+
+if (! function_exists('paginate')) {
+    /**
+     * Creates paginator for the given query based on request params.
+     *
+     * @param  EloquentBuilder|QueryBuilder  $query
+     * @param  string|array  $columns
+     * @param  string  $name
+     * @param  Pagination  $type
+     * @return ($type is Pagination::Simple ? Paginator : (($type is Pagination::Cursor ? CursorPaginator : LengthAwarePaginator))
+     */
+    function paginate(
+        EloquentBuilder|QueryBuilder $query,
+        string|array $columns = '*',
+        string $name = 'page',
+        Pagination $type = Pagination::Basic
+    ): LengthAwarePaginator|Paginator|CursorPaginator {
+        $perPage = 10;
+
+        $validator = Validator::make(
+            request()->only(['perPage']),
+            ['perPage' => ['numeric', 'min:5', 'max:50']]
+        );
+
+        if ($validator->passes()) {
+            $perPage = request()->integer('perPage');
+        }
+
+        return match ($type) {
+            Pagination::Basic => $query->paginate($perPage, Arr::wrap($columns), $name),
+            Pagination::Simple => $query->simplePaginate($perPage, Arr::wrap($columns), $name),
+            Pagination::Cursor => $query->cursorPaginate($perPage, Arr::wrap($columns), $name),
+            default => throw new InvalidArgumentException("Invalid pagination type [{$type->value}] provided!"),
+        };
     }
 }
