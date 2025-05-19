@@ -92,6 +92,26 @@ class Attachment extends Model
     }
 
     /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
+     * Get the route key.
+     *
+     * @return string
+     */
+    public function getRouteKey(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
      * The "booted" method of the model.
      */
     protected static function booted(): void
