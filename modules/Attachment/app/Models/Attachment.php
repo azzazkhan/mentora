@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Assignment\Models;
+namespace Modules\Attachment\Models;
 
 use App\Concerns\Eloquent\HasUuid;
 use App\Models\User;
@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Modules\Assignment\Database\Factories\SubmissionFactory;
-use Modules\Assignment\Enums\Submission\Status;
-use Modules\Attachment\Models\Attachment;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Modules\Attachment\Database\Factories\AttachmentFactory;
 
-class Submission extends Model
+class Attachment extends Model
 {
     use HasFactory, HasUuid;
 
@@ -23,7 +21,11 @@ class Submission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'turn_in',
+        'name',
+        'size',
+        'mime_type',
+        'disk',
+        'path',
     ];
 
     /**
@@ -38,10 +40,7 @@ class Submission extends Model
      *
      * @var array
      */
-    protected $attributes = [
-        'status' => Status::Pending,
-        'is_late' => false,
-    ];
+    protected $attributes = [];
 
     /**
      * The event map for the model.
@@ -58,10 +57,7 @@ class Submission extends Model
     protected function casts(): array
     {
         return [
-            'status' => Status::class,
-            'grade' => 'integer',
-            'is_late' => 'boolean',
-            'submitted_at' => 'datetime',
+            'size' => 'integer',
         ];
     }
 
@@ -72,33 +68,27 @@ class Submission extends Model
      */
     protected static function newFactory(): Factory
     {
-        return new SubmissionFactory;
+        return new AttachmentFactory;
     }
 
     /**
-     * Get the assignment that the submission belongs to.
+     * Get the parent attachable model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo<Model>
      */
-    public function assignment(): BelongsTo
+    public function attachable(): MorphTo
     {
-        return $this->belongsTo(Assignment::class);
+        return $this->morphTo();
     }
 
     /**
-     * Get the user who made the submission.
+     * Get the user that uploaded this attachment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the attachments for the submission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
-     */
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**

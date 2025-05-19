@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Assignment\Database\Factories\AssignmentFactory;
 use Modules\Assignment\Events\AssignmentCreated;
+use Modules\Attachment\Models\Attachment;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
 
@@ -105,6 +107,16 @@ class Assignment extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get the attachments for the assignment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
+     */
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**

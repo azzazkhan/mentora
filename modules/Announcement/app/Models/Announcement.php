@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Announcement\Database\Factories\AnnouncementFactory;
 use Modules\Announcement\Events\AnnouncementCreated;
+use Modules\Attachment\Models\Attachment;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
 
@@ -92,6 +94,16 @@ class Announcement extends Model
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    /**
+     * Get the attachments for the announcement.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
+     */
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**
