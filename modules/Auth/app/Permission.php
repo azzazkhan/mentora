@@ -76,6 +76,13 @@ class Permission
      */
     protected static function groups(): array
     {
-        return [];
+        return [
+            'announcement' => PermissionGroup\AnnouncementPermission::class,
+            'assignment' => PermissionGroup\AssignmentPermission::class,
+            'attachment' => PermissionGroup\AttachmentPermission::class,
+            'classroom' => PermissionGroup\ClassroomPermission::class,
+            'submission' => PermissionGroup\SubmissionPermission::class,
+            'user' => PermissionGroup\UserPermission::class,
+        ];
     }
 }
