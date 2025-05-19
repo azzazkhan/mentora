@@ -7,6 +7,7 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Auth\Console\Commands\SyncRolesAndPermissions;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -66,15 +67,18 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->bootModule();
 
-        $this->commands([]);
+        $this->commands([
+            SyncRolesAndPermissions::class,
+        ]);
     }
 
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }
