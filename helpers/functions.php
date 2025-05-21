@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -295,5 +296,28 @@ if (! function_exists('paginate')) {
             Pagination::Cursor => $query->cursorPaginate($perPage, Arr::wrap($columns), $name),
             default => throw new InvalidArgumentException("Invalid pagination type [{$type->value}] provided!"),
         };
+    }
+}
+
+if (! function_exists('image')) {
+    /**
+     * Returns the URL of specified image.
+     *
+     * @param  string|null  $path
+     * @param  int  $duration
+     * @param  array  $options
+     * @return string
+     */
+    function image(string|null $path = null, int $duration = 10, array $options = []): string
+    {
+        if (is_null($path) || strlen($path) == 0) {
+            return '';
+        }
+
+        if (preg_match('/(http|https):\/\//i', $path)) {
+            return $path;
+        }
+
+        return Storage::temporaryUrl($path, now()->addMinutes(clamp(5, $duration, 60)), $options);
     }
 }

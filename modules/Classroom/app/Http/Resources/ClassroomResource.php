@@ -23,8 +23,8 @@ class ClassroomResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
 
-            'icon' => $this->icon,
-            'cover' => $this->cover,
+            'icon' => image($this->icon),
+            'cover' => image($this->cover),
             'color' => $this->color,
 
             $this->mergeWhen($this->pending || $this->registrationOpen, [
