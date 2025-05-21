@@ -7,6 +7,7 @@ use Modules\Classroom\Http\Controllers\API\ClassroomController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('', [ClassroomController::class, 'index'])->name('index');
+    Route::get('enrolled', [ClassroomController::class, 'enrolled'])->name('enrolled');
 
     Route::prefix('{classroom}')->group(function () {
         Route::get('', [ClassroomController::class, 'show'])->name('show');

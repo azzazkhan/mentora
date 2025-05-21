@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Announcement\Models\Announcement;
 use Modules\Assignment\Models\Assignment;
 use Modules\Classroom\Concerns\Eloquent\HasAttributes;
 use Modules\Classroom\Concerns\Eloquent\HasQueryScopes;
@@ -136,6 +137,16 @@ class Classroom extends Model
     }
 
     /**
+     * Get the announcements for this classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Assignment>
+     */
+    public function announcements(): HasMany
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
+    /**
      * Get the assignments in the classroom.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<Assignment>
@@ -150,7 +161,7 @@ class Classroom extends Model
      *
      * @return string
      */
-    public function routeKeyName(): string
+    public function getRouteKeyName(): string
     {
         return 'uuid';
     }
