@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @method string string(string $name)
+ * @method bool boolean(string $name)
+ * @method array only(array ...$names)
+ * @method string ip()
+ */
 class LoginRequest extends FormRequest
 {
     /**
