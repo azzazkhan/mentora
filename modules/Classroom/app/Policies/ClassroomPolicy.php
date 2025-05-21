@@ -4,7 +4,10 @@ namespace Modules\Classroom\Policies;
 
 use Illuminate\Auth\Access\Response;
 use App\Models\User;
+use Modules\Auth\Enums\Role;
+use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Models\Classroom;
+use Modules\User\Models\Teacher;
 
 class ClassroomPolicy
 {
@@ -13,7 +16,7 @@ class ClassroomPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin]);
     }
 
     /**
@@ -21,7 +24,22 @@ class ClassroomPolicy
      */
     public function view(User $user, Classroom $classroom): bool
     {
-        //
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        // Teacher can view classrooms assigned to them
+        if ($user->hasRole(Teacher::class)) {
+            return $classroom->teacher()->is($user->teacher);
+        }
+
+        // Open classrooms can be accessible by anyone
+        if ($classroom->status->is([Status::Pending, Status::RegistrationOpen])) {
+            return true;
+        }
+
+        // Only enrolled students can view closed classrooms
+        return $classroom->students()->wherePivot('user_id', $user->getKey())->exists();
     }
 
     /**
@@ -29,7 +47,7 @@ class ClassroomPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -37,7 +55,7 @@ class ClassroomPolicy
      */
     public function update(User $user, Classroom $classroom): bool
     {
-        //
+        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin]);
     }
 
     /**
@@ -45,7 +63,8 @@ class ClassroomPolicy
      */
     public function delete(User $user, Classroom $classroom): bool
     {
-        //
+        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin])
+            && $classroom->students()->count() == 0;
     }
 
     /**
@@ -53,7 +72,7 @@ class ClassroomPolicy
      */
     public function restore(User $user, Classroom $classroom): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +80,6 @@ class ClassroomPolicy
      */
     public function forceDelete(User $user, Classroom $classroom): bool
     {
-        //
+        return false;
     }
 }
