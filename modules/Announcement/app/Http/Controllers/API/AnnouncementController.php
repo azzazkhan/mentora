@@ -38,7 +38,7 @@ class AnnouncementController extends Controller
 
         $announcement = new Announcement($request->only(['title', 'content']));
         $announcement->classroom()->associate($classroom);
-        $announcement->teacher()->associate($user->teacher);
+        $announcement->teacher()->associate($classroom->teacher);
         $announcement->save();
 
         /** @var list<string> $attachments */

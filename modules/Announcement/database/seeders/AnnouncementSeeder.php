@@ -31,7 +31,6 @@ class AnnouncementSeeder extends Seeder
                 Announcement::factory()
                     ->count(random_int(1, 5))
                     ->for($classroom)
-                    ->for($classroom->teacher)
                     ->has(Attachment::factory()->count(random_int(0, 3)))
                     ->create();
             });

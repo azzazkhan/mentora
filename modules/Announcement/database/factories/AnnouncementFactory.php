@@ -25,7 +25,6 @@ class AnnouncementFactory extends Factory
             'title' => fake()->sentence(),
             'content' => fake()->realText(random_int(100, 500)),
             'edited' => fake()->boolean(20),
-            'teacher_id' => Teacher::factory(),
             'classroom_id' => Classroom::factory(),
         ];
     }
