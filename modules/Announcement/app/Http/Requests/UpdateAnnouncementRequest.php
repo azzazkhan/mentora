@@ -2,8 +2,19 @@
 
 namespace Modules\Announcement\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Modules\Announcement\Models\Announcement;
+use Modules\Attachment\Models\Attachment;
 
+/**
+ * @method \App\Models\User user()
+ * @method array only(array $keys)
+ * @method \Illuminate\Support\Collection collect(string $key)
+ * @property-read \Modules\Announcement\Models\Announcement $announcement
+ */
 class UpdateAnnouncementRequest extends FormRequest
 {
     /**
@@ -11,7 +22,7 @@ class UpdateAnnouncementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('update', $this->announcement);
     }
 
     /**
@@ -23,6 +34,25 @@ class UpdateAnnouncementRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string'],
+            'attachments' => ['required', 'array', 'list'],
+            'attachments.*' => [
+                'uuid',
+                Rule::exists(Attachment::class, 'uuid')
+                    ->where(function (Builder $query) {
+                        $query
+                            ->where(function (Builder $query) {
+                                $query
+                                    ->where('attachable_type', Announcement::class)
+                                    ->where('attachable_id', $this->announcement->getKey());
+                            })
+                            ->orWhere(function (Builder $query) {
+                                $query
+                                    ->where('user_id', $this->user()->getKey())
+                                    ->whereNull('attachable_type')
+                                    ->whereNull('attachable_id');
+                            });
+                    }),
+            ],
         ];
     }
 }

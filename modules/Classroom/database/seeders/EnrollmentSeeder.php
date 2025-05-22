@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Auth\Enums\Role;
+use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Models\Classroom;
 
 class EnrollmentSeeder extends Seeder
@@ -15,7 +16,16 @@ class EnrollmentSeeder extends Seeder
      */
     public function run(): void
     {
-        Classroom::all()->each(function (Classroom $classroom) {
+        $statuses = [
+            Status::RegistrationOpen,
+            Status::RegistrationClosed,
+            Status::Started,
+            Status::Ended,
+            Status::Paused,
+            Status::Archived,
+        ];
+
+        Classroom::query()->ofStatus($statuses)->each(function (Classroom $classroom) {
             $students = User::query()->role(Role::Student)->limit(30)->inRandomOrder()->get();
 
             if (fake()->boolean(40)) {

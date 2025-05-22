@@ -7,6 +7,10 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Announcement\Events\AnnouncementDeleted;
+use Modules\Announcement\Models\Announcement;
+use Modules\Announcement\Policies\AnnouncementPolicy;
+use Modules\Attachment\Listeners\UnlinkAttachments;
 
 class AnnouncementServiceProvider extends ServiceProvider
 {
@@ -17,7 +21,9 @@ class AnnouncementServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
-    protected array $listen = [];
+    protected array $listen = [
+        AnnouncementDeleted::class => [UnlinkAttachments::class],
+    ];
 
     /**
      * The model observers for your application.
@@ -31,7 +37,9 @@ class AnnouncementServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected array $policies = [];
+    protected array $policies = [
+        Announcement::class => AnnouncementPolicy::class,
+    ];
 
     /**
      * Register services.
@@ -72,9 +80,10 @@ class AnnouncementServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }

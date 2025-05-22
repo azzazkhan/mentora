@@ -4,6 +4,7 @@ namespace Modules\Announcement\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Attachment\Http\Resources\AttachmentResource;
 use Modules\Classroom\Http\Resources\ClassroomResource;
 use Modules\User\Http\Resources\TeacherResource;
 
@@ -23,6 +24,7 @@ class AnnouncementResource extends JsonResource
             'teacher' => new TeacherResource($this->whenLoaded('teacher')),
             'classroom' => new ClassroomResource($this->whenLoaded('classroom')),
             'edited' => $this->edited,
+            'attachments' => AttachmentResource::collection($this->whenLoaded('attachments')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

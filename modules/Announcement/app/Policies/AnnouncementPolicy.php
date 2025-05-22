@@ -5,15 +5,26 @@ namespace Modules\Announcement\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Models\User;
 use Modules\Announcement\Models\Announcement;
+use Modules\Auth\Enums\Role;
+use Modules\Classroom\Enums\Status;
+use Modules\Classroom\Models\Classroom;
 
 class AnnouncementPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Classroom $classroom): bool
     {
-        //
+        if ($user->hasRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        if ($classroom->teacher()->is($user->teacher)) {
+            return true;
+        }
+
+        return $classroom->enrolledStudents()->wherePivot('user_id', $user->getKey())->exists();
     }
 
     /**
@@ -21,15 +32,32 @@ class AnnouncementPolicy
      */
     public function view(User $user, Announcement $announcement): bool
     {
-        //
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        if ($user->hasRole(Role::Student)) {
+            return $announcement
+                ->classroom
+                ->enrolledStudents()
+                ->wherePivot('user_id', $user->getKey())
+                ->exists();
+        }
+
+        return $announcement->classroom->teacher()->is($user->teacher);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Classroom $classroom): bool
     {
-        //
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        return $classroom->teacher()->is($user->teacher)
+            && $classroom->status->is([Status::Started, Status::Paused]);
     }
 
     /**
@@ -37,7 +65,11 @@ class AnnouncementPolicy
      */
     public function update(User $user, Announcement $announcement): bool
     {
-        //
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        return $announcement->classroom->teacher()->is($user->teacher);
     }
 
     /**
@@ -45,22 +77,10 @@ class AnnouncementPolicy
      */
     public function delete(User $user, Announcement $announcement): bool
     {
-        //
-    }
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Announcement $announcement): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Announcement $announcement): bool
-    {
-        //
+        return $announcement->classroom->teacher()->is($user->teacher);
     }
 }
