@@ -321,3 +321,19 @@ if (! function_exists('image')) {
         return Storage::temporaryUrl($path, now()->addMinutes(clamp(5, $duration, 60)), $options);
     }
 }
+
+if (! function_exists('random_filename')) {
+    /**
+     * Generates a random unique filename.
+     *
+     * @param  string|null  $extension
+     * @return string
+     */
+    function random_filename(string|null $extension = null): string
+    {
+        $filename = base64_encode(Str::orderedUuid() . microtime() . random_int(1, 9999));
+        $filename = str_replace(['+', '/'], '', $filename);
+
+        return $filename . ($extension ? ".{$extension}" : '');
+    }
+}

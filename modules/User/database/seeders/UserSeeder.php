@@ -25,11 +25,11 @@ class UserSeeder extends Seeder
         User::factory()->count(2)->create()->each(fn(User $user) => $user->assignRole(Role::Admin));
 
         User::factory()
-            ->count(5)
+            ->count(10)
             ->has(Teacher::factory())
             ->create()
             ->each(fn(User $user) => $user->assignRole(Role::Teacher));
 
-        User::factory()->count(30)->create()->each(fn(User $user) => $user->assignRole(Role::Student));
+        User::factory()->count(50)->create()->each(fn(User $user) => $user->assignRole(Role::Student));
     }
 }

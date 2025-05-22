@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Assignment\Models\Submission;
 use Modules\Attachment\Models\Attachment;
 use Modules\Auth\Enums\Role;
 use Modules\Classroom\Models\Classroom;
@@ -44,6 +45,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'active' => true,
     ];
 
     /**
@@ -112,6 +122,16 @@ class User extends Authenticatable
     public function attachments(): HasMany
     {
         return $this->hasMany(Attachment::class);
+    }
+
+    /**
+     * Get the assignment submissions for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Submission>
+     */
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
     }
 
     /**

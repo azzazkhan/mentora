@@ -4,6 +4,7 @@ namespace Modules\Assignment\Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Assignment\Enums\Submission\Status;
 use Modules\Assignment\Models\Assignment;
 use Modules\Assignment\Models\Submission;
 
@@ -22,7 +23,6 @@ class SubmissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'turn_in' => false,
             'assignment_id' => Assignment::factory(),
             'user_id' => User::factory(),
         ];
