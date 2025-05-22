@@ -21,7 +21,7 @@ class CreateSubmissions
     public function handle(AssignmentCreated $event): void
     {
         $assignment = $event->assignment;
-        $students = $assignment->classroom->enrolledStudents->get('id');
+        $students = $assignment->classroom->enrolledStudents()->get(['users.id']);
 
         $assignment->submissions()->createMany(
             $students->map(fn(User $student) => [
