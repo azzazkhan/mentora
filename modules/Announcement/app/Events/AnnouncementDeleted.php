@@ -9,17 +9,18 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Modules\Announcement\Models\Announcement;
 use Modules\Attachment\AttachableModelEvent;
 use Modules\Attachment\Concerns\HasAttachments;
 
-class AnnouncementDeleted extends AttachableModelEvent
+class AnnouncementDeleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(HasAttachments $model)
+    public function __construct(public Announcement $model)
     {
         //
     }

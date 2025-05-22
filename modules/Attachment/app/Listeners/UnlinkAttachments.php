@@ -2,8 +2,6 @@
 
 namespace Modules\Attachment\Listeners;
 
-use Modules\Attachment\AttachableModelEvent;
-
 class UnlinkAttachments
 {
     /**
@@ -17,7 +15,7 @@ class UnlinkAttachments
     /**
      * Handle the event.
      */
-    public function handle(AttachableModelEvent $event): void
+    public function handle(object $event): void
     {
         $event->model->attachments()->update([
             'attachable_type' => null,

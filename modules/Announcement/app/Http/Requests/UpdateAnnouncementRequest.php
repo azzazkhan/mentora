@@ -34,7 +34,7 @@ class UpdateAnnouncementRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string'],
-            'attachments' => ['required', 'array', 'list'],
+            'attachments' => ['array', 'list', 'max:10'],
             'attachments.*' => [
                 'uuid',
                 Rule::exists(Attachment::class, 'uuid')

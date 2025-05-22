@@ -13,10 +13,12 @@ use Modules\Announcement\Events\AnnouncementDeleted;
 use Modules\Attachment\Concerns\HasAttachments;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Announcement extends Model
 {
-    use HasFactory, HasUuid, HasAttachments;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
 
     /**
      * The attributes that are mass assignable.
@@ -80,11 +82,11 @@ class Announcement extends Model
     /**
      * Get the teacher who made the announcement.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Teacher>
+     * @return \Znck\Eloquent\Relations\BelongsToThrough<Teacher, Classroom>
      */
-    public function teacher(): BelongsTo
+    public function teacher(): BelongsToThrough
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsToThrough(Teacher::class, Classroom::class);
     }
 
     /**

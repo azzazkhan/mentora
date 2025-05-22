@@ -36,7 +36,7 @@ class CreateAnnouncementRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
-            'attachments' => ['required', 'array', 'list'],
+            'attachments' => ['array', 'list', 'max:10'],
             'attachments.*' => [
                 'uuid',
                 Rule::exists(Attachment::class, 'uuid')

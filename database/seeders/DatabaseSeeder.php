@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    protected function cleanup()
+    public static function cleanup()
     {
         Artisan::call('cache:clear');
         Artisan::call(SyncRolesAndPermissions::class);

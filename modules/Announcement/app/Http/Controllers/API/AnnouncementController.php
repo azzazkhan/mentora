@@ -34,11 +34,8 @@ class AnnouncementController extends Controller
     {
         $user = $request->user();
 
-        abort_unless($user->teacher, 403);
-
         $announcement = new Announcement($request->only(['title', 'content']));
         $announcement->classroom()->associate($classroom);
-        $announcement->teacher()->associate($classroom->teacher);
         $announcement->save();
 
         /** @var list<string> $attachments */
