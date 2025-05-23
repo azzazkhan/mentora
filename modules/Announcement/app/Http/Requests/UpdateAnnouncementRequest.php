@@ -13,6 +13,7 @@ use Modules\Attachment\Models\Attachment;
  * @method \App\Models\User user()
  * @method array only(array $keys)
  * @method \Illuminate\Support\Collection collect(string $key)
+ * @method bool has(string $key)
  * @property-read \Modules\Announcement\Models\Announcement $announcement
  */
 class UpdateAnnouncementRequest extends FormRequest

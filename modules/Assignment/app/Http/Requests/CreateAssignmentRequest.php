@@ -2,8 +2,20 @@
 
 namespace Modules\Assignment\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Modules\Assignment\Models\Assignment;
+use Modules\Attachment\Models\Attachment;
 
+/**
+ * @method \App\Models\User user()
+ * @method array|mixed only(string|array $keys)
+ * @method array array(array|string|null $key)
+ * @method \Illuminate\Support\Collection collect(array|string|null $key)
+ * @property-read \Modules\Classroom\Models\Classroom $classroom
+ */
 class CreateAssignmentRequest extends FormRequest
 {
     /**
@@ -11,7 +23,7 @@ class CreateAssignmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('create', [Assignment::class, $this->classroom]);
     }
 
     /**
@@ -24,7 +36,16 @@ class CreateAssignmentRequest extends FormRequest
         return [
             'title' => ['string', 'max:50'],
             'description' => ['string'],
-            'due_date' => ['required', 'date'],
+            'due_date' => ['required', 'date', Rule::date()->after(now()->addMinutes(5))],
+            'attachments' => ['array', 'list', 'max:10'],
+            'attachments.*' => [
+                'uuid',
+                Rule::exists(Attachment::class, 'uuid')
+                    ->where('user_id', $this->user()->getKey())
+                    ->where(function (Builder $query) {
+                        $query->whereNull('attachable_type')->whereNull('attachable_id');
+                    }),
+            ],
         ];
     }
 }

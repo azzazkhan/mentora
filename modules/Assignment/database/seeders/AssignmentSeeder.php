@@ -19,7 +19,6 @@ class AssignmentSeeder extends Seeder
             Assignment::factory()
                 ->count(3)
                 ->for($classroom)
-                ->for($classroom->teacher)
                 ->has(Attachment::factory()->count(random_int(0, 2)))
                 ->create();
         });

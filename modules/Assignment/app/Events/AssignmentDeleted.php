@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Announcement\Events;
+namespace Modules\Assignment\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -9,18 +9,16 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Modules\Announcement\Models\Announcement;
-use Modules\Attachment\AttachableModelEvent;
-use Modules\Attachment\Concerns\HasAttachments;
+use Modules\Assignment\Models\Assignment;
 
-class AnnouncementDeleted
+class AssignmentDeleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Announcement $announcement)
+    public function __construct(public Assignment $assignment)
     {
         //
     }
@@ -33,7 +31,7 @@ class AnnouncementDeleted
     public function broadcastOn(): array
     {
         return [
-            // new PrivateChannel('channel-name'),
+            new PrivateChannel('channel-name'),
         ];
     }
 }

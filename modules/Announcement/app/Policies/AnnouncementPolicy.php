@@ -32,10 +32,6 @@ class AnnouncementPolicy
      */
     public function view(User $user, Announcement $announcement): bool
     {
-        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
-            return true;
-        }
-
         if ($user->hasRole(Role::Student)) {
             return $announcement
                 ->classroom

@@ -7,6 +7,7 @@ use Modules\Announcement\Http\Controllers\Controller;
 use Modules\Announcement\Http\Requests\CreateAnnouncementRequest;
 use Modules\Announcement\Http\Requests\DeleteAnnouncementsRequest;
 use Modules\Announcement\Http\Requests\ListAnnouncementsRequest;
+use Modules\Announcement\Http\Requests\ShowAnnouncementRequest;
 use Modules\Announcement\Http\Requests\UpdateAnnouncementRequest;
 use Modules\Announcement\Http\Resources\AnnouncementResource;
 use Modules\Announcement\Models\Announcement;
@@ -32,16 +33,13 @@ class AnnouncementController extends Controller
      */
     public function store(CreateAnnouncementRequest $request, Classroom $classroom)
     {
-        $user = $request->user();
-
-        $announcement = new Announcement($request->only(['title', 'content']));
-        $announcement->classroom()->associate($classroom);
-        $announcement->save();
+        $announcement = $classroom->announcements()->create($request->only(['title', 'content']));
 
         /** @var list<string> $attachments */
         $attachments = $request->collect('attachments')->unique()->values()->all();
 
-        $user
+        $request
+            ->user()
             ->attachments()
             ->whereIn('uuid', $attachments)
             ->update([
@@ -49,18 +47,13 @@ class AnnouncementController extends Controller
                 'attachable_id' => $announcement->getKey()
             ]);
 
-        $announcement->setRelation(
-            'attachments',
-            Attachment::whereIn('uuid', $attachments)->get()
-        );
-
-        return new AnnouncementResource($announcement);
+        return new AnnouncementResource($announcement->load('attachments'));
     }
 
     /**
      * Show the details of the specified announcement.
      */
-    public function show(Announcement $announcement)
+    public function show(ShowAnnouncementRequest $request, Announcement $announcement)
     {
         $announcement->load(['teacher' => ['user'], 'attachments']);
 
@@ -76,30 +69,27 @@ class AnnouncementController extends Controller
             'edited' => true,
         ]));
 
-        /** @var list<string> $attachments */
-        $attachments = $request->collect('attachments')->unique()->values()->all();
+        if ($request->has('attachments')) {
+            /** @var list<string> $attachments */
+            $attachments = $request->collect('attachments')->unique()->values()->all();
 
-        // Scheduled task will auto-delete stale non-attached files
-        $announcement->attachments()->whereNotIn('uuid', $attachments)->update([
-            'attachable_type' => null,
-            'attachable_id' => null,
-        ]);
-
-        $request
-            ->user()
-            ->attachments()
-            ->whereIn('uuid', $attachments)
-            ->update([
-                'attachable_type' => Announcement::class,
-                'attachable_id' => $announcement->getKey()
+            // Scheduled task will auto-delete stale non-attached files
+            $announcement->attachments()->whereNotIn('uuid', $attachments)->update([
+                'attachable_type' => null,
+                'attachable_id' => null,
             ]);
 
-        $announcement->setRelation(
-            'attachments',
-            Attachment::whereIn('uuid', $attachments)->get()
-        );
+            $request
+                ->user()
+                ->attachments()
+                ->whereIn('uuid', $attachments)
+                ->update([
+                    'attachable_type' => Announcement::class,
+                    'attachable_id' => $announcement->getKey()
+                ]);
+        }
 
-        return new AnnouncementResource($announcement->load(['teacher' => ['user']]));
+        return new AnnouncementResource($announcement->load(['teacher' => ['user'], 'attachments']));
     }
 
     /**

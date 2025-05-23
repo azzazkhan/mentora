@@ -8,7 +8,11 @@ use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
 use Modules\Assignment\Events\AssignmentCreated;
+use Modules\Assignment\Events\AssignmentDeleted;
 use Modules\Assignment\Listeners\CreateSubmissions;
+use Modules\Assignment\Models\Assignment;
+use Modules\Assignment\Policies\AssignmentPolicy;
+use Modules\Attachment\Listeners\UnlinkAttachments;
 
 class AssignmentServiceProvider extends ServiceProvider
 {
@@ -20,9 +24,8 @@ class AssignmentServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected array $listen = [
-        AssignmentCreated::class => [
-            CreateSubmissions::class,
-        ],
+        AssignmentCreated::class => [CreateSubmissions::class],
+        AssignmentDeleted::class => [UnlinkAttachments::class],
     ];
 
     /**
@@ -37,7 +40,9 @@ class AssignmentServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected array $policies = [];
+    protected array $policies = [
+        Assignment::class => AssignmentPolicy::class,
+    ];
 
     /**
      * Register services.

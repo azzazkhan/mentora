@@ -2,13 +2,17 @@
 
 namespace Modules\Assignment\Http\Controllers\API;
 
+use App\Enums\Pagination;
 use Modules\Assignment\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Assignment\Http\Requests\CreateAssignmentRequest;
+use Modules\Assignment\Http\Requests\DeleteAssignmentRequest;
 use Modules\Assignment\Http\Requests\ListAssignmentsRequest;
+use Modules\Assignment\Http\Requests\ShowAssignmentRequest;
 use Modules\Assignment\Http\Requests\UpdateAssignmentRequest;
 use Modules\Assignment\Http\Resources\AssignmentResource;
 use Modules\Assignment\Models\Assignment;
+use Modules\Attachment\Models\Attachment;
 use Modules\Classroom\Models\Classroom;
 
 class AssignmentController extends Controller
@@ -20,18 +24,19 @@ class AssignmentController extends Controller
     {
         // $status = $request->string('status');
 
-        $assignments = $classroom
+        $query = $classroom
             ->assignments()
-            // ->when($status, function ($query) use ($status) {
-            //     // return match ($status) {
-            //     //     'pending' => $query->where('status', Status::Pending),
-            //     //     'completed' => $query->where('status', Status::Completed),
-            //     //     default => $query,
-            //     // };
-            // })
-            ->paginate(10);
+            ->with(['teacher' => ['user'], 'attachments'])
+            ->where('archived', false);
+        // ->when($status, function ($query) use ($status) {
+        //     // return match ($status) {
+        //     //     'pending' => $query->where('status', Status::Pending),
+        //     //     'completed' => $query->where('status', Status::Completed),
+        //     //     default => $query,
+        //     // };
+        // });
 
-        return AssignmentResource::collection($assignments);
+        return AssignmentResource::collection(paginate($query, type: Pagination::Cursor));
     }
 
     /**
@@ -39,16 +44,32 @@ class AssignmentController extends Controller
      */
     public function store(CreateAssignmentRequest $request, Classroom $classroom)
     {
-        $assignment = $classroom->assignments()->create($request->validated());
+        $assignment = $classroom
+            ->assignments()
+            ->create($request->only(['title', 'description', 'due_date']));
 
-        return new AssignmentResource($assignment);
+        /** @var list<string> $attachments */
+        $attachments = $request->collect('attachments')->unique()->values()->all();
+
+        $request
+            ->user()
+            ->attachments()
+            ->whereIn('uuid', $attachments)
+            ->update([
+                'attachable_type' => Assignment::class,
+                'attachable_id' => $assignment->getKey()
+            ]);
+
+        return new AssignmentResource($assignment->load('attachments'));
     }
 
     /**
      * Get the specified assignment.
      */
-    public function show(Assignment $assignment)
+    public function show(ShowAssignmentRequest $request, Assignment $assignment)
     {
+        $assignment->load(['teacher' => ['user'], 'attachments']);
+
         return new AssignmentResource($assignment);
     }
 
@@ -57,19 +78,41 @@ class AssignmentController extends Controller
      */
     public function update(UpdateAssignmentRequest $request, Assignment $assignment)
     {
-        $assignment->update(array_merge($request->validated(), [
+        abort_if($assignment->archived, 404);
+
+        $assignment->update(array_merge($request->only(['description', 'due_date']), [
             'edited' => true,
         ]));
 
-        return new AssignmentResource($assignment);
+        if ($request->has('attachments')) {
+            /** @var list<string> $attachments */
+            $attachments = $request->collect('attachments')->unique()->values()->all();
+
+            // Scheduled task will auto-delete stale non-attached files
+            $assignment->attachments()->whereNotIn('uuid', $attachments)->update([
+                'attachable_type' => null,
+                'attachable_id' => null,
+            ]);
+
+            $request
+                ->user()
+                ->attachments()
+                ->whereIn('uuid', $attachments)
+                ->update([
+                    'attachable_type' => Assignment::class,
+                    'attachable_id' => $assignment->getKey()
+                ]);
+        }
+
+        return new AssignmentResource($assignment->load(['teacher' => ['user'], 'attachments']));
     }
 
     /**
      * Delete the specified assignment.
      */
-    public function destroy(Assignment $assignment)
+    public function destroy(DeleteAssignmentRequest $request, Assignment $assignment)
     {
-        $assignment->delete();
+        $assignment->update(['archived' => true]);
 
         return response()->json(null, 204);
     }

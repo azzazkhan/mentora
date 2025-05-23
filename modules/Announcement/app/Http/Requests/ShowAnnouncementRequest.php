@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Assignment\Http\Requests;
+namespace Modules\Announcement\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
 /**
- * @property-read \Modules\Assignment\Models\Assignment $assignment
+ * @property-read \Modules\Announcement\Models\Announcement $announcement
  */
-class DeleteAssignmentRequest extends FormRequest
+class ShowAnnouncementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete', $this->assignment);
+        return Gate::allows('view', $this->announcement);
     }
 
     /**

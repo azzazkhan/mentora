@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description')->nullable();
             $table->timestamp('due_date');
+            $table->boolean('archived');
             $table->boolean('edited');
 
-            $table->foreignId('teacher_id')->constrained('teachers');
             $table->foreignId('classroom_id')->constrained('classrooms');
 
             $table->timestamps();

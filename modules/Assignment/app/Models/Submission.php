@@ -8,14 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Assignment\Database\Factories\SubmissionFactory;
 use Modules\Assignment\Enums\Submission\Status;
-use Modules\Attachment\Models\Attachment;
+use Modules\Attachment\Concerns\HasAttachments;
 
 class Submission extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, HasAttachments;
 
     /**
      * The attributes that are mass assignable.
@@ -89,16 +88,6 @@ class Submission extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the attachments for the submission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
-     */
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**

@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Gate;
 /**
  * @property-read \Modules\Assignment\Models\Assignment $assignment
  */
-class DeleteAssignmentRequest extends FormRequest
+class ShowAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete', $this->assignment);
+        return Gate::allows('view', $this->assignment);
     }
 
     /**
