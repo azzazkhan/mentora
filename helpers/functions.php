@@ -3,6 +3,7 @@
 use App\Enums\Pagination;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
+use Helpers\CStr;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -335,5 +336,68 @@ if (! function_exists('random_filename')) {
         $filename = str_replace(['+', '/'], '', $filename);
 
         return $filename . ($extension ? ".{$extension}" : '');
+    }
+}
+
+if (!function_exists('random_avatar')) {
+    /**
+     * Generates a random avatar URL using dicebear.com API.
+     *
+     * @return string
+     */
+    function random_avatar(): string
+    {
+        $styles = [
+            'adventurer',
+            'adventurer-neutral',
+            'avataaars',
+            'avataaars-neutral',
+            'big-ears',
+            'big-ears-neutral',
+            'big-smile',
+            'bottts',
+            'bottts-neutral',
+            'croodles',
+            'croodles-neutral',
+            'fun-emoji',
+            // 'icons',
+            'identicon',
+            'initials',
+            'lorelei',
+            'lorelei-neutral',
+            'micah',
+            'notionists',
+            'notionists-neutral',
+            'open-peeps',
+            'personas',
+            'pixel-art',
+            'pixel-art-neutral',
+            'shapes',
+            'thumbs',
+        ];
+
+        return sprintf('https://api.dicebear.com/6.x/%s/png', $styles[random_int(0, count($styles) - 1)]);
+    }
+}
+
+if (!function_exists('cn')) {
+    /**
+     * Parses the given values into HTML class names and applies Tailwind CSS
+     * class name merging functions.
+     *
+     * @param  array<mixed>  $classes
+     */
+    function cn(...$classes): string
+    {
+        $classes = collect($classes)->map(function (mixed $class) {
+            return match (true) {
+                is_array($class) => CStr::classes($class),
+                $class instanceof Collection => CStr::classes($class->all()),
+                is_string($class) && $class => $class,
+                default => null
+            };
+        });
+
+        return $classes->filter()->join(' ');
     }
 }
