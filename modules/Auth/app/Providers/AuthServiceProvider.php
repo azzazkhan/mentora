@@ -5,9 +5,11 @@ namespace Modules\Auth\Providers;
 // use Illuminate\Support\Facades\Schedule;
 use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
 use Modules\Auth\Console\Commands\SyncRolesAndPermissions;
+use Modules\User\Listeners\AssignUserRole;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,7 +20,9 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
-    protected array $listen = [];
+    protected array $listen = [
+        Registered::class => [AssignUserRole::class],
+    ];
 
     /**
      * The model observers for your application.
