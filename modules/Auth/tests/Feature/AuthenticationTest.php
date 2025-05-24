@@ -9,7 +9,7 @@ test('login screen can be rendered', function () {
     $response = $this->get(route('auth::login'));
 
     $response->assertStatus(200);
-})->group('web', 'auth');
+})->group('web', 'auth', 'login');
 
 
 test('users can authenticate using the login screen', function () {
@@ -22,7 +22,7 @@ test('users can authenticate using the login screen', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
-})->group('web', 'auth');
+})->group('web', 'auth', 'login');
 
 
 test('users can not authenticate with invalid password', function () {
@@ -34,7 +34,7 @@ test('users can not authenticate with invalid password', function () {
     ]);
 
     $this->assertGuest();
-})->group('web', 'auth');
+})->group('web', 'auth', 'login');
 
 
 test('users can logout', function () {
@@ -44,4 +44,4 @@ test('users can logout', function () {
 
     $this->assertGuest();
     $response->assertRedirect(route('home', absolute: false));
-})->group('web', 'auth');
+})->group('web', 'auth', 'login');

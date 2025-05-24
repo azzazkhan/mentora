@@ -11,7 +11,7 @@ test('confirm password screen can be rendered', function () {
     $response = $this->actingAs($user)->get(route('auth::password.confirm'));
 
     $response->assertStatus(200);
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-confirmation');
 
 
 test('password can be confirmed', function () {
@@ -23,7 +23,7 @@ test('password can be confirmed', function () {
 
     $response->assertRedirect();
     $response->assertSessionHasNoErrors();
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-confirmation');
 
 
 test('password is not confirmed with invalid password', function () {
@@ -34,4 +34,4 @@ test('password is not confirmed with invalid password', function () {
     ]);
 
     $response->assertSessionHasErrors();
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-confirmation');

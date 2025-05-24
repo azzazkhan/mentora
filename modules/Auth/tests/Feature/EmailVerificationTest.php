@@ -14,7 +14,7 @@ test('email verification screen can be rendered', function () {
     $response = $this->actingAs($user)->get(route('auth::verification.notice'));
 
     $response->assertStatus(200);
-})->group('web', 'auth');
+})->group('web', 'auth', 'verification');
 
 
 test('email can be verified', function () {
@@ -33,7 +33,7 @@ test('email can be verified', function () {
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
     $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
-})->group('web', 'auth');
+})->group('web', 'auth', 'verification');
 
 
 test('email is not verified with invalid hash', function () {
@@ -48,4 +48,4 @@ test('email is not verified with invalid hash', function () {
     $this->actingAs($user)->get($verificationUrl);
 
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
-})->group('web', 'auth');
+})->group('web', 'auth', 'verification');

@@ -11,7 +11,7 @@ test('reset password link screen can be rendered', function () {
     $response = $this->get(route('auth::password.request'));
 
     $response->assertStatus(200);
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-reset');
 
 
 test('reset password link can be requested', function () {
@@ -22,7 +22,7 @@ test('reset password link can be requested', function () {
     $this->post(route('auth::password.email'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class);
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-reset');
 
 
 test('reset password screen can be rendered', function () {
@@ -39,7 +39,7 @@ test('reset password screen can be rendered', function () {
 
         return true;
     });
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-reset');
 
 
 test('password can be reset with valid token', function () {
@@ -63,4 +63,4 @@ test('password can be reset with valid token', function () {
 
         return true;
     });
-})->group('web', 'auth');
+})->group('web', 'auth', 'password-reset');
