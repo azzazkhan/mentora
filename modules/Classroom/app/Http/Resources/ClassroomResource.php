@@ -4,7 +4,9 @@ namespace Modules\Classroom\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Auth\Enums\Role;
 use Modules\Classroom\Enums\Status;
+use Modules\User\Http\Resources\TeacherResource;
 
 class ClassroomResource extends JsonResource
 {
@@ -21,19 +23,25 @@ class ClassroomResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
 
-            'icon' => $this->icon,
-            'cover' => $this->cover,
+            'icon' => image($this->icon),
+            'cover' => image($this->cover),
             'color' => $this->color,
 
             $this->mergeWhen($this->pending || $this->registrationOpen, [
-                'registration_start_at' => $this->whenNotNull($this->registration_start_at),
-                'registration_end_at' => $this->whenNotNull($this->registration_end_at),
+                'registration_started_at' => $this->whenNotNull($this->registration_started_at),
+                'registration_ended_at' => $this->whenNotNull($this->registration_ended_at),
             ]),
 
             $this->mergeWhen($this->started || $this->registrationClosed, [
-                'start_at' => $this->whenNotNull($this->start_at),
-                'end_at' => $this->whenNotNull($this->end_at),
+                'started_at' => $this->whenNotNull($this->started_at),
+                'ended_at' => $this->whenNotNull($this->ended_at),
             ]),
+
+            'teacher' => new TeacherResource($this->whenLoaded('teacher')),
+
+            'enrollment' => $this->when($request->user()->hasRole(Role::Student), function () {
+                return new EnrollmentResource($this->whenLoaded('enrollment'));
+            }),
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

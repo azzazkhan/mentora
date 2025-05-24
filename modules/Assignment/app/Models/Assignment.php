@@ -8,16 +8,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Assignment\Database\Factories\AssignmentFactory;
 use Modules\Assignment\Events\AssignmentCreated;
-use Modules\Attachment\Models\Attachment;
+use Modules\Assignment\Events\AssignmentDeleted;
+use Modules\Attachment\Concerns\HasAttachments;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Assignment extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +30,9 @@ class Assignment extends Model
         'title',
         'description',
         'due_date',
+        'allow_late',
         'edited',
+        'archived',
     ];
 
     /**
@@ -44,7 +48,9 @@ class Assignment extends Model
      * @var array
      */
     protected $attributes = [
+        'allow_late' => false,
         'edited' => false,
+        'archived' => false,
     ];
 
     /**
@@ -54,6 +60,7 @@ class Assignment extends Model
      */
     protected $dispatchesEvents = [
         'created' => AssignmentCreated::class,
+        'deleted' => AssignmentDeleted::class,
     ];
 
     /**
@@ -65,7 +72,9 @@ class Assignment extends Model
     {
         return [
             'due_date' => 'datetime',
+            'allow_late' => 'boolean',
             'edited' => 'boolean',
+            'archived' => 'boolean',
         ];
     }
 
@@ -80,13 +89,13 @@ class Assignment extends Model
     }
 
     /**
-     * Get the teacher who created the assignment.
+     * Get the teacher who made the announcement.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Teacher>
+     * @return \Znck\Eloquent\Relations\BelongsToThrough<Teacher, Classroom>
      */
-    public function teacher(): BelongsTo
+    public function teacher(): BelongsToThrough
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsToThrough(Teacher::class, Classroom::class);
     }
 
     /**
@@ -107,16 +116,6 @@ class Assignment extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
-    }
-
-    /**
-     * Get the attachments for the assignment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
-     */
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**

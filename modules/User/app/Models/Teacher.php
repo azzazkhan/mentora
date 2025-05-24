@@ -88,16 +88,6 @@ class Teacher extends Model
     }
 
     /**
-     * Get the announcements associated with the teacher.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Announcement>
-     */
-    public function announcements(): HasMany
-    {
-        return $this->hasMany(Announcement::class);
-    }
-
-    /**
      * Get the route key name.
      *
      * @return string

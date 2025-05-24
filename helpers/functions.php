@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -295,5 +296,44 @@ if (! function_exists('paginate')) {
             Pagination::Cursor => $query->cursorPaginate($perPage, Arr::wrap($columns), $name),
             default => throw new InvalidArgumentException("Invalid pagination type [{$type->value}] provided!"),
         };
+    }
+}
+
+if (! function_exists('image')) {
+    /**
+     * Returns the URL of specified image.
+     *
+     * @param  string|null  $path
+     * @param  int  $duration
+     * @param  array  $options
+     * @return string
+     */
+    function image(string|null $path = null, int $duration = 10, array $options = []): string
+    {
+        if (is_null($path) || strlen($path) == 0) {
+            return '';
+        }
+
+        if (preg_match('/(http|https):\/\//i', $path)) {
+            return $path;
+        }
+
+        return Storage::temporaryUrl($path, now()->addMinutes(clamp(5, $duration, 60)), $options);
+    }
+}
+
+if (! function_exists('random_filename')) {
+    /**
+     * Generates a random unique filename.
+     *
+     * @param  string|null  $extension
+     * @return string
+     */
+    function random_filename(string|null $extension = null): string
+    {
+        $filename = base64_encode(Str::orderedUuid() . microtime() . random_int(1, 9999));
+        $filename = str_replace(['+', '/'], '', $filename);
+
+        return $filename . ($extension ? ".{$extension}" : '');
     }
 }

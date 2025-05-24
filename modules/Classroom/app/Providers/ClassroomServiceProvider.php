@@ -7,6 +7,8 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Classroom\Models\Classroom;
+use Modules\Classroom\Policies\ClassroomPolicy;
 
 class ClassroomServiceProvider extends ServiceProvider
 {
@@ -31,7 +33,9 @@ class ClassroomServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected array $policies = [];
+    protected array $policies = [
+        Classroom::class => ClassroomPolicy::class,
+    ];
 
     /**
      * Register services.
@@ -72,9 +76,10 @@ class ClassroomServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }

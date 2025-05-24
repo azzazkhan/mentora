@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Modules\Announcement\Database\Seeders\AnnouncementSeeder;
 use Modules\Assignment\Database\Seeders\AssignmentSeeder;
 use Modules\Assignment\Database\Seeders\SubmissionSeeder;
@@ -20,8 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Artisan::call('cache:clear');
-        Artisan::call(SyncRolesAndPermissions::class);
+        $this->cleanup();
 
         $this->call([
             UserSeeder::class,
@@ -31,5 +31,14 @@ class DatabaseSeeder extends Seeder
             AssignmentSeeder::class,
             SubmissionSeeder::class,
         ]);
+    }
+
+    public static function cleanup()
+    {
+        Artisan::call('cache:clear');
+        Artisan::call(SyncRolesAndPermissions::class);
+
+        Storage::deleteDirectory('attachments');
+        Storage::deleteDirectory('avatars');
     }
 }

@@ -4,18 +4,21 @@ namespace Modules\Assignment\Models;
 
 use App\Concerns\Eloquent\HasUuid;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Assignment\Database\Factories\SubmissionFactory;
 use Modules\Assignment\Enums\Submission\Status;
-use Modules\Attachment\Models\Attachment;
+use Modules\Attachment\Concerns\HasAttachments;
+use Modules\Classroom\Models\Classroom;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Submission extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +26,9 @@ class Submission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'turn_in',
+        'grade',
+        'status',
+        'is_late',
     ];
 
     /**
@@ -76,6 +81,14 @@ class Submission extends Model
     }
 
     /**
+     * Get the classroom that the submission belongs to.
+     */
+    public function classroom(): BelongsToThrough
+    {
+        return $this->belongsToThrough(Classroom::class, Assignment::class);
+    }
+
+    /**
      * Get the assignment that the submission belongs to.
      */
     public function assignment(): BelongsTo
@@ -91,14 +104,16 @@ class Submission extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the attachments for the submission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
-     */
-    public function attachments(): MorphMany
+    protected function turnedIn(): Attribute
     {
-        return $this->morphMany(Attachment::class, 'attachable');
+        return Attribute::get(function (mixed $value, array $attrs) {
+            return Status::resolve($attrs['status'])->is([
+                Status::TurnedIn,
+                Status::Locked,
+                Status::Processing,
+                Status::Finalized,
+            ]);
+        });
     }
 
     /**

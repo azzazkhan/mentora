@@ -4,9 +4,11 @@ namespace Modules\Assignment\Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
 use Modules\Assignment\Models\Assignment;
 use Modules\Assignment\Models\Submission;
+use Modules\Attachment\Models\Attachment;
 use Modules\Classroom\Models\Classroom;
 
 class SubmissionSeeder extends Seeder
@@ -22,8 +24,16 @@ class SubmissionSeeder extends Seeder
             $classroom
                 ->assignments()
                 ->each(function (Assignment $assignment) use ($students) {
-                    $students->random(6)->each(function (User $student) use ($assignment) {
-                        Submission::factory()->for($assignment)->for($student)->create();
+                    $count = ceil($students->count() * random_int(4, 9) * 0.1);
+
+                    $students->random($count)->each(function (User $student) use ($assignment) {
+                        $submission = $assignment->submissions()->where('user_id', $student->getKey())->firstOrFail();
+
+                        Attachment::factory()
+                            ->count(random_int(1, 3))
+                            ->for($submission, 'attachable')
+                            ->for($student, 'user')
+                            ->create();
                     });
                 });
         });

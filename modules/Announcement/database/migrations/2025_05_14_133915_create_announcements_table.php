@@ -19,7 +19,6 @@ return new class extends Migration
             $table->longText('content');
             $table->boolean('edited');
 
-            $table->foreignId('teacher_id')->constrained('teachers');
             $table->foreignId('classroom_id')->constrained('classrooms');
 
             $table->timestamps();

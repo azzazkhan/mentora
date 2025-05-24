@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\UnreportableException;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Auth\Http\Middleware\EnsureUserNotBanned;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -39,8 +41,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'api/*',
         ]);
+
+        $middleware->append(EnsureUserNotBanned::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->dontReport(UnreportableException::class);
+
         $exceptions
             ->render(function (ModelNotFoundException|NotFoundHttpException $e, Request $request) {
                 if ($request->wantsJson()) {

@@ -15,11 +15,12 @@ class AssignmentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'title' => $this->title,
             'description' => $this->description,
             'due_date' => $this->due_date,
-            'status' => $this->status,
+            'edited' => $this->edited,
+            'attachments' => $this->whenLoaded('attachments'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

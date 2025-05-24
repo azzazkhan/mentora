@@ -9,11 +9,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('{assignment}')->group(function () {
         Route::get('', [AssignmentController::class, 'show'])->name('show');
         Route::put('', [AssignmentController::class, 'update'])->name('update');
+        Route::delete('', [AssignmentController::class, 'destroy'])->name('destroy');
 
         Route::prefix('submissions')->name('submissions.')->group(function () {
             Route::get('', [SubmissionController::class, 'index'])->name('index');
 
-            Route::prefix('{submission}')->group(function () {
+            Route::prefix('{submission}')->scopeBindings()->group(function () {
                 Route::get('', [SubmissionController::class, 'show'])->name('show');
                 Route::put('', [SubmissionController::class, 'update'])->name('update');
             });

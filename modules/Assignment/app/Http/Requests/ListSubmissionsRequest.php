@@ -3,7 +3,12 @@
 namespace Modules\Assignment\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
+use Modules\Assignment\Models\Submission;
 
+/**
+ * @property-read \Modules\Assignment\Models\Assignment $assignment
+ */
 class ListSubmissionsRequest extends FormRequest
 {
     /**
@@ -11,7 +16,7 @@ class ListSubmissionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Gate::allows('list', [Submission::class, $this->assignment]);
     }
 
     /**

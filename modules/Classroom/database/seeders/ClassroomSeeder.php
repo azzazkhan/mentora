@@ -15,7 +15,7 @@ class ClassroomSeeder extends Seeder
     public function run(): void
     {
         Teacher::all()->each(function (Teacher $teacher) {
-            Classroom::factory()->count(random_int(1, 3))->for($teacher)->create();
+            Classroom::factory()->count(random_int(2, 3))->for($teacher)->create();
         });
     }
 }

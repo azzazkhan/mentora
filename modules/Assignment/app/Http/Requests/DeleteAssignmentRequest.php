@@ -3,7 +3,11 @@
 namespace Modules\Assignment\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
+/**
+ * @property-read \Modules\Assignment\Models\Assignment $assignment
+ */
 class DeleteAssignmentRequest extends FormRequest
 {
     /**
@@ -11,7 +15,7 @@ class DeleteAssignmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('delete', $this->assignment);
     }
 
     /**

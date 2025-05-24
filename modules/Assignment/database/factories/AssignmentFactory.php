@@ -25,7 +25,6 @@ class AssignmentFactory extends Factory
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'due_date' => fake()->dateTimeBetween('now', '+1 month'),
-            'teacher_id' => Teacher::factory(),
             'classroom_id' => Classroom::factory(),
         ];
     }

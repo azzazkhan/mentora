@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Announcement\Database\Factories\AnnouncementFactory;
 use Modules\Announcement\Events\AnnouncementCreated;
-use Modules\Attachment\Models\Attachment;
+use Modules\Announcement\Events\AnnouncementDeleted;
+use Modules\Attachment\Concerns\HasAttachments;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
+use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Announcement extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +54,7 @@ class Announcement extends Model
      */
     protected $dispatchesEvents = [
         'created' => AnnouncementCreated::class,
+        'deleted' => AnnouncementDeleted::class,
     ];
 
     /**
@@ -79,11 +82,11 @@ class Announcement extends Model
     /**
      * Get the teacher who made the announcement.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Teacher>
+     * @return \Znck\Eloquent\Relations\BelongsToThrough<Teacher, Classroom>
      */
-    public function teacher(): BelongsTo
+    public function teacher(): BelongsToThrough
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsToThrough(Teacher::class, Classroom::class);
     }
 
     /**
@@ -94,16 +97,6 @@ class Announcement extends Model
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
-    }
-
-    /**
-     * Get the attachments for the announcement.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Attachment>
-     */
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**
