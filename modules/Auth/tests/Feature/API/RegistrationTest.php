@@ -1,7 +1,11 @@
 <?php
 
+use Database\Seeders\DatabaseSeeder;
+
 uses(Tests\TestCase::class);
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
+beforeEach(fn() => DatabaseSeeder::cleanup());
 
 test('new users can register', function () {
     $response = $this->post(route('auth::api.register'), [
@@ -16,4 +20,4 @@ test('new users can register', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
     ]);
-})->group('api', 'auth');
+})->group('api', 'auth', 'registration');

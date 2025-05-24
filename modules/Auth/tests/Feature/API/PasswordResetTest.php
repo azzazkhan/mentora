@@ -17,7 +17,7 @@ test('reset password link can be requested', function () {
     $response->assertStatus(200);
 
     Notification::assertSentTo($user, ResetPassword::class);
-})->group('api', 'auth');
+})->group('api', 'auth', 'password-reset');
 
 
 test('password can be reset with valid token', function () {
@@ -41,4 +41,4 @@ test('password can be reset with valid token', function () {
 
         return true;
     });
-})->group('api', 'auth');
+})->group('api', 'auth', 'password-reset');

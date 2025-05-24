@@ -15,7 +15,7 @@ test('users can login with valid credentials', function () {
     ]);
 
     $response->assertStatus(200);
-})->group('api', 'auth');
+})->group('api', 'auth', 'login');
 
 
 test('login response has valid structure', function () {
@@ -41,24 +41,26 @@ test('login response has valid structure', function () {
                         ->whereType('uuid', 'string')
                         ->whereType('name', 'string')
                         ->whereType('email', 'string')
+                        ->whereType('avatar', 'string')
+                        ->whereType('roles', 'array')
                         ->whereType('verified', 'boolean')
                         ->whereType('created_at', 'string')
                         ->whereType('updated_at', 'string');
                 });
         });
-})->group('api', 'auth');
+})->group('api', 'auth', 'login');
 
 
 test('user can authenticate using bearer token', function () {
     $user = User::factory()->create();
     $token = $user->createToken('test-token')->plainTextToken;
 
-    $response = $this->withToken($token)->getJson(route('user::api.me'));
+    $response = $this->withToken($token)->getJson(route('user::api.me.show'));
 
     $response->assertStatus(200)->assertJson(
         fn(AssertableJson $json) => $json->where('uuid', $user->uuid)->etc(),
     );
-})->group('api', 'auth');
+})->group('api', 'auth', 'login');
 
 
 test('users can not login with invalid password', function () {
@@ -70,7 +72,7 @@ test('users can not login with invalid password', function () {
     ]);
 
     $response->assertStatus(422);
-})->group('api', 'auth');
+})->group('api', 'auth', 'login');
 
 
 test('user can logout', function () {
@@ -80,4 +82,4 @@ test('user can logout', function () {
     $response = $this->withToken($token)->postJson(route('auth::api.logout'));
 
     $response->assertNoContent();
-})->group('api', 'auth');
+})->group('api', 'auth', 'login');

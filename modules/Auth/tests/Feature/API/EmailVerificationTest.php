@@ -24,7 +24,7 @@ test('email can be verified', function () {
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
     $response->assertNoContent();
-})->group('api', 'auth');
+})->group('api', 'auth', 'verification');
 
 
 test('email is not verified with invalid hash', function () {
@@ -40,4 +40,4 @@ test('email is not verified with invalid hash', function () {
 
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
     $response->assertStatus(403);
-})->group('api', 'auth');
+})->group('api', 'auth', 'verification');
