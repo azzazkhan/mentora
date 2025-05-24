@@ -38,4 +38,15 @@ trait Resolvable
 
         return false;
     }
+
+    /**
+     * Check if the enum is not one of the given values.
+     *
+     * @param  mixed  $values
+     * @return bool
+     */
+    public function isNot(mixed $values): bool
+    {
+        return ! $this->is($values);
+    }
 }

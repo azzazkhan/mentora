@@ -30,8 +30,9 @@ class Assignment extends Model
         'title',
         'description',
         'due_date',
-        'archived',
+        'allow_late',
         'edited',
+        'archived',
     ];
 
     /**
@@ -47,8 +48,9 @@ class Assignment extends Model
      * @var array
      */
     protected $attributes = [
-        'archived' => false,
+        'allow_late' => false,
         'edited' => false,
+        'archived' => false,
     ];
 
     /**
@@ -70,7 +72,9 @@ class Assignment extends Model
     {
         return [
             'due_date' => 'datetime',
+            'allow_late' => 'boolean',
             'edited' => 'boolean',
+            'archived' => 'boolean',
         ];
     }
 

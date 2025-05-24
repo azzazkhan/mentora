@@ -11,7 +11,9 @@ use Modules\Assignment\Events\AssignmentCreated;
 use Modules\Assignment\Events\AssignmentDeleted;
 use Modules\Assignment\Listeners\CreateSubmissions;
 use Modules\Assignment\Models\Assignment;
+use Modules\Assignment\Models\Submission;
 use Modules\Assignment\Policies\AssignmentPolicy;
+use Modules\Assignment\Policies\SubmissionPolicy;
 use Modules\Attachment\Listeners\UnlinkAttachments;
 
 class AssignmentServiceProvider extends ServiceProvider
@@ -42,6 +44,7 @@ class AssignmentServiceProvider extends ServiceProvider
      */
     protected array $policies = [
         Assignment::class => AssignmentPolicy::class,
+        Submission::class => SubmissionPolicy::class,
     ];
 
     /**

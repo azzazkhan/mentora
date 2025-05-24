@@ -183,4 +183,15 @@ class Classroom extends Model
     {
         // ...
     }
+
+    /**
+     * Check if the specified student has enrolled in the classroom.
+     */
+    public function enrolled(User $student): bool
+    {
+        return $this
+            ->enrolledStudents()
+            ->wherePivot('user_id', $student->getKey())
+            ->exists();
+    }
 }

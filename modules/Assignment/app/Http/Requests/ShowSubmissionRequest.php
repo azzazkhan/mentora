@@ -4,19 +4,18 @@ namespace Modules\Assignment\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-use Modules\Assignment\Models\Submission;
 
 /**
- * @property-read \Modules\Assignment\Models\Assignment $assignment
+ * @property-read \Modules\Assignment\Models\Submission $submission
  */
-class ListSubmissionsRequest extends FormRequest
+class ShowSubmissionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('list', [Submission::class, $this->assignment]);
+        return Gate::allows('view', $this->submission);
     }
 
     /**
