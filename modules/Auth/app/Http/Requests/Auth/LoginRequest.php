@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
  * @method string string(string $name)
  * @method bool boolean(string $name)
  * @method array only(array ...$names)
+ * @method \Illuminate\Contracts\Session\Session session()
  * @method string ip()
  */
 class LoginRequest extends FormRequest

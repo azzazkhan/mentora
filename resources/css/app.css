@@ -2,7 +2,7 @@
 
 @plugin 'tailwindcss-animate';
 
-@source '../views/app.blade.php';
+@source '../views';
 @source '../js';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
