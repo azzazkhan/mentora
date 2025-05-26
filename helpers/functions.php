@@ -339,7 +339,7 @@ if (! function_exists('random_filename')) {
     }
 }
 
-if (!function_exists('random_avatar')) {
+if (! function_exists('random_avatar')) {
     /**
      * Generates a random avatar URL using dicebear.com API.
      *
@@ -380,7 +380,7 @@ if (!function_exists('random_avatar')) {
     }
 }
 
-if (!function_exists('cn')) {
+if (! function_exists('cn')) {
     /**
      * Parses the given values into HTML class names and applies Tailwind CSS
      * class name merging functions.
@@ -399,5 +399,24 @@ if (!function_exists('cn')) {
         });
 
         return $classes->filter()->join(' ');
+    }
+}
+
+if (! function_exists('initials')) {
+    /**
+     * Generate initials from a given string.
+     *
+     * @param  string  $string
+     * @param  int  $limit
+     * @return string
+     */
+    function initials(string $string, int $limit = 2): string
+    {
+        $initials = collect(explode(' ', $string))
+            ->map([Str::class, 'squish'])
+            ->filter()
+            ->map(fn(string $string) => ucfirst($string[0]));
+
+        return $initials->take(clamp(1, $limit, 10))->join('');
     }
 }
