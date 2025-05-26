@@ -1,5 +1,8 @@
 <?php
 
+use App\Livewire\Pages\Announcement;
+use App\Livewire\Pages\Assignment;
+use App\Livewire\Pages\Classroom;
 use App\Livewire\Pages\Dashboard;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -10,6 +13,12 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
+
+    Route::prefix('classrooms/{classroom}')->group(function () {
+        Route::get('', Classroom::class)->name('classroom.show');
+        Route::get('assignments/{assignment}', Assignment::class)->name('assignment.show');
+        Route::get('announcements/{announcement}', Announcement::class)->name('announcement.show');
+    });
 });
 
 
