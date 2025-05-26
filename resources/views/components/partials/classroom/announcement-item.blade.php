@@ -33,16 +33,17 @@
             </button>
 
             <x-dropdown.menu data-align="end" class="min-w-min w-36">
+                @php($route = route('announcement.show', ['classroom' => $classroom, 'announcement' => $announcement]))
                 <x-dropdown.menu-item
                     as="a"
                     wire:navigate
-                    href="{{ route('announcement.show', ['classroom' => $classroom, 'announcement' => $announcement]) }}"
+                    href="{{ $route }}"
                 >
                     <x-fas-eye class="size-4 mr-1" />
                     <span>Preview</span>
                 </x-dropdown.menu-item>
 
-                <x-dropdown.menu-item>
+                <x-dropdown.menu-item x-on:click.prevent="$clipboard('{{ $route }}')">
                     <x-fas-paperclip class="size-4 mr-1" />
                     <span>Copy Link</span>
                 </x-dropdown.menu-item>

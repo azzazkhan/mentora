@@ -26,7 +26,7 @@
             </div>
 
             @if ($classroom->description)
-                <div class="px-10 py-6 shadow" x-show="description" x-collapse>
+                <div class="px-10 py-6 shadow" x-show="description" x-cloak x-collapse>
                     <p class="text-muted-foreground text-sm">
                         {{ $classroom->description }}
                     </p>
@@ -45,44 +45,6 @@
         </div>
 
         <div class="grow flex flex-col gap-y-8">
-            <div>
-                <x-dropdown>
-                    <button type="button" aria-haspopup="menu" aria-expanded="false" x-bind="$trigger" id="dropdown-menu-trigger" aria-controls="dropdown-menu-menu" class="btn-outline">Open</button>
-
-                    <x-dropdown.menu>
-                        <x-dropdown.group heading="My Account">
-                            <x-dropdown.menu-item>
-                                Billing
-                                <x-dropdown.command>⌘B</x-dropdown.command>
-                            </x-dropdown.menu-item>
-
-                            <x-dropdown.menu-item>
-                                Settings
-                                <x-dropdown.command>⌘S</x-dropdown.command>
-                            </x-dropdown.menu-item>
-
-                            <x-dropdown.menu-item>
-                                Keyboard shortcuts
-                                <x-dropdown.command>⌘K</x-dropdown.command>
-                            </x-dropdown.menu-item>
-                        </x-dropdown.group>
-
-                        <x-dropdown.separator />
-
-                        <x-dropdown.menu-item>GitHub</x-dropdown.menu-item>
-                        <x-dropdown.menu-item>Support</x-dropdown.menu-item>
-                        <x-dropdown.menu-item disabled>API</x-dropdown.menu-item>
-
-                        <x-dropdown.separator />
-
-                        <x-dropdown.menu-item>
-                            Logout
-                            <x-dropdown.command>⇧⌘P</x-dropdown.command>
-                        </x-dropdown.menu-item>
-                    </x-dropdown.menu>
-                </x-dropdown>
-            </div>
-
             @foreach ($activities as $activity)
 
                 @switch ($activity->subject_type)

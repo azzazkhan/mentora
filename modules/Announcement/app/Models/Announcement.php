@@ -11,6 +11,7 @@ use Modules\Announcement\Database\Factories\AnnouncementFactory;
 use Modules\Announcement\Events\AnnouncementCreated;
 use Modules\Announcement\Events\AnnouncementDeleted;
 use Modules\Attachment\Concerns\HasAttachments;
+use Modules\Classroom\Concerns\Eloquent\IsActivity;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -18,7 +19,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Announcement extends Model
 {
-    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments, IsActivity;
 
     /**
      * The attributes that are mass assignable.

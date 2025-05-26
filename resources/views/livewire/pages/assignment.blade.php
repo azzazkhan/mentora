@@ -36,7 +36,7 @@
                             </button>
 
                             <x-dropdown.menu data-align="end" class="min-w-min w-36">
-                                <x-dropdown.menu-item>
+                                <x-dropdown.menu-item x-on:click.prevent="$clipboard('{{ request()->url() }}')">
                                     <x-fas-paperclip class="size-4 mr-1" />
                                     <span>Copy Link</span>
                                 </x-dropdown.menu-item>

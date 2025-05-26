@@ -31,7 +31,8 @@ $pageTitle = isset($title) ? "{$title} &mdash; {$app_name}" : $app_name;
             </div>
         </div>
 
-        @livewireScripts
+        @vite('resources/js/livewire.js')
+        @livewireScriptConfig
 
         <x-basecoat />
     </body>

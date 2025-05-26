@@ -25,6 +25,11 @@ class AssignmentItem extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.partials.classroom.assignment-item');
+        return view('components.partials.classroom.assignment-item', [
+            'route' => route('assignment.show', [
+                'classroom' => $this->classroom,
+                'assignment' => $this->assignment,
+            ]),
+        ]);
     }
 }

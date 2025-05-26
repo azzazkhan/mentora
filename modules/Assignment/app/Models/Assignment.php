@@ -12,6 +12,7 @@ use Modules\Assignment\Database\Factories\AssignmentFactory;
 use Modules\Assignment\Events\AssignmentCreated;
 use Modules\Assignment\Events\AssignmentDeleted;
 use Modules\Attachment\Concerns\HasAttachments;
+use Modules\Classroom\Concerns\Eloquent\IsActivity;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -19,7 +20,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 
 class Assignment extends Model
 {
-    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments;
+    use HasFactory, HasUuid, BelongsToThroughTrait, HasAttachments, IsActivity;
 
     /**
      * The attributes that are mass assignable.

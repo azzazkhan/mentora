@@ -29,6 +29,7 @@ class Submission extends Model
         'grade',
         'status',
         'is_late',
+        'submitted_at',
     ];
 
     /**

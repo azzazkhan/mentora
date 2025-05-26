@@ -137,6 +137,16 @@ class Classroom extends Model
     }
 
     /**
+     * Get the activities for this classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Activity>
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
      * Get the announcements for this classroom.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<Assignment>
