@@ -1644,6 +1644,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+basecoat-css@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/basecoat-css/-/basecoat-css-0.1.2.tgz#e9d572e5ed05626e6b6ec4ac3beec15f071d2cd6"
+  integrity sha512-nKlo9u7rLE7POTet5rId1Q8xjzHCqGxqRJxvF6qC7DY3ZgDDtEkLCYQN23Rluk2VMg/HPqWWf4+6rS49rXLzLw==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"

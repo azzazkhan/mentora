@@ -1,6 +1,8 @@
 @import 'tailwindcss';
+@import 'basecoat-css';
 
 @source '../views';
+@source '../../app/Livewire';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
@@ -14,6 +16,14 @@
 
     --text-xxs: 0.625rem;
 
+    --container-width: 86rem;
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
@@ -22,7 +32,6 @@
 }
 
 @theme inline {
-    --color-primary: var(--color-blue-600);
     --color-primary-50: var(--color-blue-50);
     --color-primary-100: var(--color-blue-100);
     --color-primary-200: var(--color-blue-200);
@@ -118,6 +127,12 @@
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
 
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
 }
@@ -126,6 +141,18 @@
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
 
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+
     --muted: oklch(0.269 0 0);
     --muted-foreground: oklch(0.708 0 0);
+}
+
+.container {
+    @apply mx-auto w-full;
+
+    max-width: var(--container-width);
 }
