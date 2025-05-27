@@ -319,7 +319,7 @@ if (! function_exists('image')) {
             return $path;
         }
 
-        return Storage::temporaryUrl($path, now()->addMinutes(clamp(5, $duration, 60)), $options);
+        return Storage::url($path, /* now()->addMinutes(clamp(5, $duration, 60)), $options */);
     }
 }
 

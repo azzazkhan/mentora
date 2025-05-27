@@ -18,7 +18,7 @@
             <div class="flex items-center justify-between gap-x-4 px-3 h-10 rounded-md border border-muted-foreground/25">
                 <div class="grow">
                     <a
-                        href="{{ Storage::disk($attachment->disk)->temporaryUrl($attachment->path, now()->addMinutes(10)) }}"
+                        href="{{ Storage::disk($attachment->disk)->url($attachment->path) }}"
                         class="text-sm font-medium underline-offset-4 line-clamp-1 max-w-max hover:underline"
                         target="_blank"
                     >

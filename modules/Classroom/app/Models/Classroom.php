@@ -195,7 +195,7 @@ class Classroom extends Model
      */
     protected static function booted(): void
     {
-        // ...
+        //
     }
 
     /**

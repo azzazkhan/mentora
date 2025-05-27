@@ -23,7 +23,7 @@ class ClassroomResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
 
-            'cover' => image($this->cover),
+            'cover' => $this->cover->getOriginalUrl(),
             'color' => $this->color,
 
             $this->mergeWhen($this->pending || $this->registrationOpen, [
