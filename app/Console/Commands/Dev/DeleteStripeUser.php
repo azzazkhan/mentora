@@ -28,12 +28,6 @@ class DeleteStripeUser extends Command
      */
     public function handle()
     {
-        if (! config('cashier.enabled')) {
-            $this->components->error('Laravel Cashier integration is disabled');
-
-            return 1;
-        }
-
         $key = $this->argument('user');
 
         $column = match (true) {
