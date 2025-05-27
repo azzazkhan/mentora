@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Classroom\Enums\Color;
 use Modules\Classroom\Enums\Status;
 
 return new class extends Migration
@@ -18,9 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
 
-            $table->string('icon')->nullable();
             $table->string('cover')->nullable();
-            $table->string('color')->nullable();
+            $table->enum('color', Color::values());
 
             $table->unsignedInteger('fee');
 

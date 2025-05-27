@@ -23,7 +23,6 @@ class ClassroomResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
 
-            'icon' => image($this->icon),
             'cover' => image($this->cover),
             'color' => $this->color,
 
