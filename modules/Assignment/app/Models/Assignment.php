@@ -144,6 +144,8 @@ class Assignment extends Model
      */
     protected static function booted(): void
     {
-        // ...
+        static::updating(function (Assignment $assignment) {
+            $assignment->edited = true;
+        });
     }
 }

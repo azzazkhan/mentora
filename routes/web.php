@@ -12,7 +12,7 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
 
     Route::prefix('classrooms/{classroom}')->group(function () {

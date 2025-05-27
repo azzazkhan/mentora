@@ -23,7 +23,7 @@ class Browse extends Component
 
         $query
             ->whereDoesntHave('students', function (Builder $query) use ($user) {
-                $query->where('users.id', $user->getKey());
+                $query->where('users.id', $user->getKey())->whereNotNull('enrolled_at');
             })
             ->ofStatus([Status::Pending, Status::RegistrationOpen]);
 
@@ -71,6 +71,7 @@ class Browse extends Component
         $transaction->user()->associate($user);
         $transaction->save();
 
+        $classroom->students()->detach($user);
         $classroom->students()->attach($user, ['transaction_id' => $transaction->id]);
 
         return $this->redirect($checkout->url);

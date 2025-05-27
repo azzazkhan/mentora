@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Concerns\Eloquent\HasUuid;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -74,7 +75,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasAnyRole([Role::SuperAdmin, Role::Admin]);
+        return $this->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher]);
     }
 
     /**
@@ -140,6 +141,11 @@ class User extends Authenticatable implements FilamentUser
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    protected function admin(): Attribute
+    {
+        return Attribute::get(fn() => $this->hasAnyRole([Role::SuperAdmin, Role::Admin]));
     }
 
     /**

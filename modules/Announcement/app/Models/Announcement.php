@@ -125,6 +125,8 @@ class Announcement extends Model
      */
     protected static function booted(): void
     {
-        // ...
+        static::updating(function (Announcement $announcement) {
+            $announcement->edited = true;
+        });
     }
 }
