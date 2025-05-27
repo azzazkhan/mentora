@@ -1,3 +1,4 @@
+@use('Modules\Classroom\Enums\Status')
 <x-page>
     <div class="container px-20">
         <div
@@ -39,9 +40,21 @@
     <div class="container flex gap-x-10 mt-10 px-20">
         <div class="shrink-0 w-60">
             <div class="border border-muted-foreground/30 p-6 rounded-xl">
-                <h5>Upcoming</h5>
+                <h5>Details</h5>
 
-                <p class="text-muted-foreground text-sm mt-4">Woohoo, no work due soon!</p>
+                <p class="text-muted-foreground text-sm mt-4">
+                    @if ($classroom->status->is([Status::RegistrationOpen, Status::RegistrationClosed]))
+                        Starting in {{ $classroom->started_at->diffForHumans() }}
+                    @elseif ($classroom->status->is(Status::Started))
+                        Ending in {{ $classroom->ended_at->diffForHumans() }}
+                    @elseif ($classroom->status->is(Status::Ended))
+                        Ended {{ $classroom->ended_at->diffForHumans() }}
+                    @elseif ($classroom->status->is(Status::Paused))
+                        Paused
+                    @elseif ($classroom->status->is(Status::Archived))
+                        Archived
+                    @endif
+                </p>
             </div>
         </div>
 

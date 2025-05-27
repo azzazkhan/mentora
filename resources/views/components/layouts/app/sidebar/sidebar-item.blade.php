@@ -3,7 +3,7 @@
     class="{{
         cn([
             'flex items-center h-12 gap-x-2.5 text-sm px-2.5 line-clamp-1 truncate rounded-md',
-            'text-primary-600 font-semibold active pointer-events-none' => $active,
+            'text-primary-600 font-semibold active' => $active,
             'hover:bg-muted-foreground/15 transition-colors' => ! $active,
             $class
         ])

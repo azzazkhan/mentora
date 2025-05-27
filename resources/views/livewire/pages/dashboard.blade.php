@@ -1,3 +1,4 @@
+@use('Modules\Classroom\Enums\Status')
 <x-page>
     <div class="grid grid-cols-3 container gap-x-6 gap-y-10">
         @foreach ($classrooms as $classroom)
@@ -24,7 +25,17 @@
                 </div>
                 <div class="p-4 h-40">
                     <p class="text-sm text-muted-foreground overlapped-text line-clamp-5">
-                        No new work posted
+                        @if ($classroom->status->is([Status::RegistrationOpen, Status::RegistrationClosed]))
+                            Starting in {{ $classroom->started_at->diffForHumans() }}
+                        @elseif ($classroom->status->is(Status::Started))
+                            Ending in {{ $classroom->ended_at->diffForHumans() }}
+                        @elseif ($classroom->status->is(Status::Ended))
+                            Ended {{ $classroom->ended_at->diffForHumans() }}
+                        @elseif ($classroom->status->is(Status::Paused))
+                            Paused
+                        @elseif ($classroom->status->is(Status::Archived))
+                            Archived
+                        @endif
                     </p>
                 </div>
             </div>

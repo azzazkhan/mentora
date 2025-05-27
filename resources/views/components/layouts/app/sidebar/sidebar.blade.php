@@ -40,21 +40,21 @@
             <span class="grow">Explore</span>
         </x-layouts.app.sidebar.sidebar-item>
 
-        <x-layouts.app.sidebar.sidebar-item class="!h-11" wire:navigate>
+        {{-- <x-layouts.app.sidebar.sidebar-item class="!h-11" wire:navigate>
             <x-slot:icon class="flex items-center justify-center">
                 <x-phosphor-user-duotone class="size-5.5" />
             </x-slot:icon>
 
             <span class="grow">My Profile</span>
-        </x-layouts.app.sidebar.sidebar-item>
+        </x-layouts.app.sidebar.sidebar-item> --}}
 
-        <x-layouts.app.sidebar.sidebar-item class="!h-11" wire:navigate>
+        {{-- <x-layouts.app.sidebar.sidebar-item class="!h-11" wire:navigate>
             <x-slot:icon class="flex items-center justify-center">
                 <x-phosphor-sliders-horizontal-duotone class="size-5.5" />
             </x-slot:icon>
 
             <span class="grow">Preferences</span>
-        </x-layouts.app.sidebar.sidebar-item>
+        </x-layouts.app.sidebar.sidebar-item> --}}
     </div>
 
     <span class="text-muted-foreground text-xxs font-semibold uppercase mx-6 mb-1">Classrooms</span>
