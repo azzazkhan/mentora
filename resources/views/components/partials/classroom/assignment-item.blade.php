@@ -20,7 +20,7 @@
         </p>
     </div>
 
-    <x-dropdown>
+    {{-- <x-dropdown>
         <button
             type="button"
             aria-haspopup="menu"
@@ -37,5 +37,5 @@
                 <span>Copy Link</span>
             </x-dropdown.menu-item>
         </x-dropdown.menu>
-    </x-dropdown>
+    </x-dropdown> --}}
 </a>

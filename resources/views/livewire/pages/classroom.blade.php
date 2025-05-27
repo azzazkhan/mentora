@@ -7,7 +7,7 @@
         >
             <div
                 class="h-52 px-10 py-6 flex justify-between items-end gap-x-10 rounded-2xl bg-cover bg-center"
-                style="background-image: url('https://gstatic.com/classroom/themes/img_code.jpg')"
+                style="background-image: url('{{ $classroom->cover->getOriginalUrl() }}')"
             >
                 <h1 class="text-3xl font-bold line-clamp-2 leading-snug grow text-white">
                     {{ $classroom->name }}
@@ -18,6 +18,7 @@
                         type="button"
                         class="size-10 shrink-0 flex items-center justify-center rounded-full text-white hover:bg-muted-foreground/30"
                         x-on:click.prevent="description = !description"
+                        x-bind:data-tooltip="description ? 'Hide description' : 'Show description'"
                     >
                         <x-heroicon-o-information-circle class="size-6" x-show="!description" />
                         <x-heroicon-s-information-circle class="size-6" x-show="description" />

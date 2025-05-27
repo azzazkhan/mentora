@@ -15,6 +15,7 @@ use Modules\Assignment\Models\Assignment;
 use Modules\Classroom\Concerns\Eloquent\HasAttributes;
 use Modules\Classroom\Concerns\Eloquent\HasQueryScopes;
 use Modules\Classroom\Database\Factories\ClassroomFactory;
+use Modules\Classroom\Enums\Classroom\Cover;
 use Modules\Classroom\Enums\Color;
 use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Events\ClassroomCreated;
@@ -74,6 +75,7 @@ class Classroom extends Model
     {
         return [
             'fee' => 'integer',
+            'cover' => Cover::class,
             'color' => Color::class,
             'status' => Status::class,
             'registration_started_at' => 'datetime',

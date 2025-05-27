@@ -5,7 +5,7 @@
                 wire:key="{{ $classroom->uuid }}"
                 class="flex flex-col rounded-xl overflow-hidden border border-muted shadow transition-all hover:shadow-lg"
             >
-                <div class="relative flex flex-col h-30 justify-between bg-blue-900 p-4 text-white">
+                <div class="relative flex flex-col h-30 justify-between bg-cover bg-center p-4 text-white" style="background-image: url('{{ $classroom->cover->getThumbnailUrl() }}')">
                     <h3 class="text-xl font-medium truncate">{{ $classroom->name }}</h3>
 
                     <span class="text-sm truncate mr-24">
@@ -27,24 +27,39 @@
 
                     <div class="mt-auto flex flex-col gap-y-4 pt-4">
 
-                        <p class="text-xs text-muted-foreground">
-                            Registration opens at <span class="font-medium">{{ now()->format('M jS, g:i A') }}</span>
-                        </p>
+                        @if ($classroom->registration_started_at->isFuture())
+                            <p class="text-xs text-muted-foreground">
+                                Registration starts from <span class="font-medium">{{ $classroom->registration_started_at->format('M jS, g:i A') }}</span>
+                            </p>
+                        @elseif ($classroom->registration_ended_at)
+                            <p class="text-xs text-muted-foreground">
+                                Registration ends on <span class="font-medium">{{ $classroom->registration_ended_at->format('M jS, g:i A') }}</span>
+                            </p>
+                        @endif
 
-                        <button
-                            class="btn"
-                            wire:loading.attr="disabled"
-                            wire:target="checkout('{{ $classroom->uuid }}')"
-                            wire:click.prevent="checkout('{{ $classroom->uuid }}')"
-                        >
-                            <x-icon-loading
-                                wire:loading
+                        @unless ($classroom->registration_started_at->isFuture())
+                            <button
+                                class="btn"
+                                wire:loading.attr="disabled"
                                 wire:target="checkout('{{ $classroom->uuid }}')"
-                                class="size-4 animate-spin"
-                            />
+                                wire:click.prevent="checkout('{{ $classroom->uuid }}')"
+                            >
+                                <x-icon-loading
+                                    wire:loading
+                                    wire:target="checkout('{{ $classroom->uuid }}')"
+                                    class="size-4 animate-spin"
+                                />
 
-                            <span>Enroll for <span class="uppercase">{{ config('cashier.currency') }}</span> {{ number_format($classroom->fee / 100) }}</span>
-                        </button>
+                                <span>Enroll for <span class="uppercase">{{ config('cashier.currency') }}</span> {{ number_format($classroom->fee / 100) }}</span>
+                            </button>
+                        @else
+                            <button
+                                class="btn"
+                                disabled
+                            >
+                                <span>Enroll for <span class="uppercase">{{ config('cashier.currency') }}</span> {{ number_format($classroom->fee / 100) }}</span>
+                            </button>
+                        @endunless
                     </div>
                 </div>
             </div>

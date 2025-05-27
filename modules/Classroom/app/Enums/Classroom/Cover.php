@@ -1,0 +1,242 @@
+<?php
+
+namespace Modules\Classroom\Enums\Classroom;
+
+use ArchTech\Enums\Values;
+
+enum Cover: string
+{
+    use Values;
+
+    case BreakfastThumb = 'breakfast';
+    case HonorsThumb = 'honors';
+    case GraduationThumb = 'graduation';
+    case BookclubThumb = 'bookclub';
+    case CodeThumb = 'code';
+    case ReachoutThumb = 'reachout';
+    case LearnlanguageThumb = 'learn-language';
+    case BacktoschoolThumb = 'back-to-school';
+    case ReadThumb = 'read';
+    case WorldStudiesThumb = 'world-studies';
+    case EnglishThumb = 'english';
+    case WorldHistoryThumb = 'world-history';
+    case SocialStudiesThumb = 'social-studies';
+    case GeographyThumb = 'geography';
+    case USHistoryThumb = 'us-history';
+    case WritingThumb = 'writing';
+    case LanguageArtsThumb = 'language-arts';
+    case GeometryThumb = 'geometry';
+    case PsychologyThumb = 'psychology';
+    case MathThumb = 'math';
+    case ChemistryThumb = 'chemistry';
+    case PhysicsThumb = 'physics';
+    case BiologyThumb = 'biology';
+    case CoffeeThumb = 'coffee';
+    case CinemaThumb = 'cinema';
+    case Violin2Thumb = 'violin2';
+    case ArtsThumb = 'arts';
+    case TheatreoperaThumb = 'theatre-opera';
+    case MealfamilyThumb = 'meal-family';
+    case BirthdayThumb = 'birthday';
+    case LearninstrumentThumb = 'learn-instrument';
+    case DesignThumb = 'design';
+    case ConcertThumb = 'concert';
+    case DancingThumb = 'dancing';
+    case CookingThumb = 'cooking';
+    case BbqThumb = 'bbq';
+    case WrestlingThumb = 'wrestling';
+    case VolleyballThumb = 'volleyball';
+    case AthleticsjumpingThumb = 'athletics-jumping';
+    case AmericanfootballThumb = 'american-football';
+    case TriathlonThumb = 'triathlon';
+    case RowingThumb = 'rowing';
+    case EquestrianThumb = 'equestrian';
+    case WaterpoloThumb = 'waterpolo';
+    case GolfThumb = 'golf';
+    case KayakingThumb = 'kayaking';
+    case BowlingThumb = 'bowling';
+    case CyclingThumb = 'cycling';
+    case SoccerThumb = 'soccer';
+    case KarateThumb = 'karate';
+    case BilliardThumb = 'billiard';
+    case CricketThumb = 'cricket';
+    case TennisThumb = 'tennis';
+    case SwimmingThumb = 'swimming';
+    case ClimbingThumb = 'climbing';
+    case CyclingbmxThumb = 'cycling-bmx';
+    case GymThumb = 'gym';
+    case PingpongThumb = 'ping-pong';
+    case FencingThumb = 'fencing';
+    case BoxingThumb = 'boxing';
+    case EconomicsThumb = 'economics';
+    case WalkingdogThumb = 'walking-dog';
+    case HobbyThumb = 'hobby';
+    case SailingThumb = 'sailing';
+    case VideogamingThumb = 'videogaming';
+    case CarmaintenanceThumb = 'car-maintenance';
+    case RepairThumb = 'repair';
+    case HikingThumb = 'hiking';
+    case HaircutThumb = 'haircut';
+    case GamenightThumb = 'game-night';
+    case CampingThumb = 'camping';
+    case OilchangeThumb = 'oil-change';
+    case HandcraftThumb = 'handcraft';
+
+    public function getOriginalUrl(): string
+    {
+        return match ($this) {
+            self::BreakfastThumb => 'https://gstatic.com/classroom/themes/img_breakfast.jpg',
+            self::HonorsThumb => 'https://gstatic.com/classroom/themes/Honors.jpg',
+            self::GraduationThumb => 'https://gstatic.com/classroom/themes/img_graduation.jpg',
+            self::BookclubThumb => 'https://gstatic.com/classroom/themes/img_bookclub.jpg',
+            self::CodeThumb => 'https://gstatic.com/classroom/themes/img_code.jpg',
+            self::ReachoutThumb => 'https://gstatic.com/classroom/themes/img_reachout.jpg',
+            self::LearnlanguageThumb => 'https://gstatic.com/classroom/themes/img_learnlanguage.jpg',
+            self::BacktoschoolThumb => 'https://gstatic.com/classroom/themes/img_backtoschool.jpg',
+            self::ReadThumb => 'https://gstatic.com/classroom/themes/img_read.jpg',
+            self::WorldStudiesThumb => 'https://gstatic.com/classroom/themes/WorldStudies.jpg',
+            self::EnglishThumb => 'https://gstatic.com/classroom/themes/English.jpg',
+            self::WorldHistoryThumb => 'https://gstatic.com/classroom/themes/WorldHistory.jpg',
+            self::SocialStudiesThumb => 'https://gstatic.com/classroom/themes/SocialStudies.jpg',
+            self::GeographyThumb => 'https://gstatic.com/classroom/themes/Geography.jpg',
+            self::USHistoryThumb => 'https://gstatic.com/classroom/themes/USHistory.jpg',
+            self::WritingThumb => 'https://gstatic.com/classroom/themes/Writing.jpg',
+            self::LanguageArtsThumb => 'https://gstatic.com/classroom/themes/LanguageArts.jpg',
+            self::GeometryThumb => 'https://gstatic.com/classroom/themes/Geometry.jpg',
+            self::PsychologyThumb => 'https://gstatic.com/classroom/themes/Psychology.jpg',
+            self::MathThumb => 'https://gstatic.com/classroom/themes/Math.jpg',
+            self::ChemistryThumb => 'https://gstatic.com/classroom/themes/Chemistry.jpg',
+            self::PhysicsThumb => 'https://gstatic.com/classroom/themes/Physics.jpg',
+            self::BiologyThumb => 'https://gstatic.com/classroom/themes/Biology.jpg',
+            self::CoffeeThumb => 'https://gstatic.com/classroom/themes/img_coffee.jpg',
+            self::CinemaThumb => 'https://gstatic.com/classroom/themes/img_cinema.jpg',
+            self::Violin2Thumb => 'https://gstatic.com/classroom/themes/img_violin2.jpg',
+            self::ArtsThumb => 'https://gstatic.com/classroom/themes/img_arts.jpg',
+            self::TheatreoperaThumb => 'https://gstatic.com/classroom/themes/img_theatreopera.jpg',
+            self::MealfamilyThumb => 'https://gstatic.com/classroom/themes/img_mealfamily.jpg',
+            self::BirthdayThumb => 'https://gstatic.com/classroom/themes/img_birthday.jpg',
+            self::LearninstrumentThumb => 'https://gstatic.com/classroom/themes/img_learninstrument.jpg',
+            self::DesignThumb => 'https://gstatic.com/classroom/themes/Design.jpg',
+            self::ConcertThumb => 'https://gstatic.com/classroom/themes/img_concert.jpg',
+            self::DancingThumb => 'https://gstatic.com/classroom/themes/img_dancing.jpg',
+            self::CookingThumb => 'https://gstatic.com/classroom/themes/img_cooking.jpg',
+            self::BbqThumb => 'https://gstatic.com/classroom/themes/img_bbq.jpg',
+            self::WrestlingThumb => 'https://gstatic.com/classroom/themes/img_wrestling.jpg',
+            self::VolleyballThumb => 'https://gstatic.com/classroom/themes/img_volleyball.jpg',
+            self::AthleticsjumpingThumb => 'https://gstatic.com/classroom/themes/img_athleticsjumping.jpg',
+            self::AmericanfootballThumb => 'https://gstatic.com/classroom/themes/img_americanfootball.jpg',
+            self::TriathlonThumb => 'https://gstatic.com/classroom/themes/img_triathlon.jpg',
+            self::RowingThumb => 'https://gstatic.com/classroom/themes/img_rowing.jpg',
+            self::EquestrianThumb => 'https://gstatic.com/classroom/themes/img_equestrian.jpg',
+            self::WaterpoloThumb => 'https://gstatic.com/classroom/themes/img_waterpolo.jpg',
+            self::GolfThumb => 'https://gstatic.com/classroom/themes/img_golf.jpg',
+            self::KayakingThumb => 'https://gstatic.com/classroom/themes/img_kayaking.jpg',
+            self::BowlingThumb => 'https://gstatic.com/classroom/themes/img_bowling.jpg',
+            self::CyclingThumb => 'https://gstatic.com/classroom/themes/img_cycling.jpg',
+            self::SoccerThumb => 'https://gstatic.com/classroom/themes/img_soccer.jpg',
+            self::KarateThumb => 'https://gstatic.com/classroom/themes/img_karate.jpg',
+            self::BilliardThumb => 'https://gstatic.com/classroom/themes/img_billiard.jpg',
+            self::CricketThumb => 'https://gstatic.com/classroom/themes/img_cricket.jpg',
+            self::TennisThumb => 'https://gstatic.com/classroom/themes/img_tennis.jpg',
+            self::SwimmingThumb => 'https://gstatic.com/classroom/themes/img_swimming.jpg',
+            self::ClimbingThumb => 'https://gstatic.com/classroom/themes/img_climbing.jpg',
+            self::CyclingbmxThumb => 'https://gstatic.com/classroom/themes/img_cyclingbmx.jpg',
+            self::GymThumb => 'https://gstatic.com/classroom/themes/img_gym.jpg',
+            self::PingpongThumb => 'https://gstatic.com/classroom/themes/img_pingpong.jpg',
+            self::FencingThumb => 'https://gstatic.com/classroom/themes/img_fencing.jpg',
+            self::BoxingThumb => 'https://gstatic.com/classroom/themes/img_boxing.jpg',
+            self::EconomicsThumb => 'https://gstatic.com/classroom/themes/Economics.jpg',
+            self::WalkingdogThumb => 'https://gstatic.com/classroom/themes/img_walkingdog.jpg',
+            self::HobbyThumb => 'https://gstatic.com/classroom/themes/img_hobby.jpg',
+            self::SailingThumb => 'https://gstatic.com/classroom/themes/img_sailing.jpg',
+            self::VideogamingThumb => 'https://gstatic.com/classroom/themes/img_videogaming.jpg',
+            self::CarmaintenanceThumb => 'https://gstatic.com/classroom/themes/img_carmaintenance.jpg',
+            self::RepairThumb => 'https://gstatic.com/classroom/themes/img_repair.jpg',
+            self::HikingThumb => 'https://gstatic.com/classroom/themes/img_hiking.jpg',
+            self::HaircutThumb => 'https://gstatic.com/classroom/themes/img_haircut.jpg',
+            self::GamenightThumb => 'https://gstatic.com/classroom/themes/img_gamenight.jpg',
+            self::CampingThumb => 'https://gstatic.com/classroom/themes/img_camping.jpg',
+            self::OilchangeThumb => 'https://gstatic.com/classroom/themes/img_oilchange.jpg',
+            self::HandcraftThumb => 'https://gstatic.com/classroom/themes/img_handcraft.jpg',
+        };
+    }
+
+    public function getThumbnailUrl(): string
+    {
+        return match ($this) {
+            self::BreakfastThumb => 'https://gstatic.com/classroom/themes/img_breakfast_thumb.jpg',
+            self::HonorsThumb => 'https://gstatic.com/classroom/themes/Honors_thumb.jpg',
+            self::GraduationThumb => 'https://gstatic.com/classroom/themes/img_graduation_thumb.jpg',
+            self::BookclubThumb => 'https://gstatic.com/classroom/themes/img_bookclub_thumb.jpg',
+            self::CodeThumb => 'https://gstatic.com/classroom/themes/img_code_thumb.jpg',
+            self::ReachoutThumb => 'https://gstatic.com/classroom/themes/img_reachout_thumb.jpg',
+            self::LearnlanguageThumb => 'https://gstatic.com/classroom/themes/img_learnlanguage_thumb.jpg',
+            self::BacktoschoolThumb => 'https://gstatic.com/classroom/themes/img_backtoschool_thumb.jpg',
+            self::ReadThumb => 'https://gstatic.com/classroom/themes/img_read_thumb.jpg',
+            self::WorldStudiesThumb => 'https://gstatic.com/classroom/themes/WorldStudies_thumb.jpg',
+            self::EnglishThumb => 'https://gstatic.com/classroom/themes/English_thumb.jpg',
+            self::WorldHistoryThumb => 'https://gstatic.com/classroom/themes/WorldHistory_thumb.jpg',
+            self::SocialStudiesThumb => 'https://gstatic.com/classroom/themes/SocialStudies_thumb.jpg',
+            self::GeographyThumb => 'https://gstatic.com/classroom/themes/Geography_thumb.jpg',
+            self::USHistoryThumb => 'https://gstatic.com/classroom/themes/USHistory_thumb.jpg',
+            self::WritingThumb => 'https://gstatic.com/classroom/themes/Writing_thumb.jpg',
+            self::LanguageArtsThumb => 'https://gstatic.com/classroom/themes/LanguageArts_thumb.jpg',
+            self::GeometryThumb => 'https://gstatic.com/classroom/themes/Geometry_thumb.jpg',
+            self::PsychologyThumb => 'https://gstatic.com/classroom/themes/Psychology_thumb.jpg',
+            self::MathThumb => 'https://gstatic.com/classroom/themes/Math_thumb.jpg',
+            self::ChemistryThumb => 'https://gstatic.com/classroom/themes/Chemistry_thumb.jpg',
+            self::PhysicsThumb => 'https://gstatic.com/classroom/themes/Physics_thumb.jpg',
+            self::BiologyThumb => 'https://gstatic.com/classroom/themes/Biology_thumb.jpg',
+            self::CoffeeThumb => 'https://gstatic.com/classroom/themes/img_coffee_thumb.jpg',
+            self::CinemaThumb => 'https://gstatic.com/classroom/themes/img_cinema_thumb.jpg',
+            self::Violin2Thumb => 'https://gstatic.com/classroom/themes/img_violin2_thumb.jpg',
+            self::ArtsThumb => 'https://gstatic.com/classroom/themes/img_arts_thumb.jpg',
+            self::TheatreoperaThumb => 'https://gstatic.com/classroom/themes/img_theatreopera_thumb.jpg',
+            self::MealfamilyThumb => 'https://gstatic.com/classroom/themes/img_mealfamily_thumb.jpg',
+            self::BirthdayThumb => 'https://gstatic.com/classroom/themes/img_birthday_thumb.jpg',
+            self::LearninstrumentThumb => 'https://gstatic.com/classroom/themes/img_learninstrument_thumb.jpg',
+            self::DesignThumb => 'https://gstatic.com/classroom/themes/Design_thumb.jpg',
+            self::ConcertThumb => 'https://gstatic.com/classroom/themes/img_concert_thumb.jpg',
+            self::DancingThumb => 'https://gstatic.com/classroom/themes/img_dancing_thumb.jpg',
+            self::CookingThumb => 'https://gstatic.com/classroom/themes/img_cooking_thumb.jpg',
+            self::BbqThumb => 'https://gstatic.com/classroom/themes/img_bbq_thumb.jpg',
+            self::WrestlingThumb => 'https://gstatic.com/classroom/themes/img_wrestling_thumb.jpg',
+            self::VolleyballThumb => 'https://gstatic.com/classroom/themes/img_volleyball_thumb.jpg',
+            self::AthleticsjumpingThumb => 'https://gstatic.com/classroom/themes/img_athleticsjumping_thumb.jpg',
+            self::AmericanfootballThumb => 'https://gstatic.com/classroom/themes/img_americanfootball_thumb.jpg',
+            self::TriathlonThumb => 'https://gstatic.com/classroom/themes/img_triathlon_thumb.jpg',
+            self::RowingThumb => 'https://gstatic.com/classroom/themes/img_rowing_thumb.jpg',
+            self::EquestrianThumb => 'https://gstatic.com/classroom/themes/img_equestrian_thumb.jpg',
+            self::WaterpoloThumb => 'https://gstatic.com/classroom/themes/img_waterpolo_thumb.jpg',
+            self::GolfThumb => 'https://gstatic.com/classroom/themes/img_golf_thumb.jpg',
+            self::KayakingThumb => 'https://gstatic.com/classroom/themes/img_kayaking_thumb.jpg',
+            self::BowlingThumb => 'https://gstatic.com/classroom/themes/img_bowling_thumb.jpg',
+            self::CyclingThumb => 'https://gstatic.com/classroom/themes/img_cycling_thumb.jpg',
+            self::SoccerThumb => 'https://gstatic.com/classroom/themes/img_soccer_thumb.jpg',
+            self::KarateThumb => 'https://gstatic.com/classroom/themes/img_karate_thumb.jpg',
+            self::BilliardThumb => 'https://gstatic.com/classroom/themes/img_billiard_thumb.jpg',
+            self::CricketThumb => 'https://gstatic.com/classroom/themes/img_cricket_thumb.jpg',
+            self::TennisThumb => 'https://gstatic.com/classroom/themes/img_tennis_thumb.jpg',
+            self::SwimmingThumb => 'https://gstatic.com/classroom/themes/img_swimming_thumb.jpg',
+            self::ClimbingThumb => 'https://gstatic.com/classroom/themes/img_climbing_thumb.jpg',
+            self::CyclingbmxThumb => 'https://gstatic.com/classroom/themes/img_cyclingbmx_thumb.jpg',
+            self::GymThumb => 'https://gstatic.com/classroom/themes/img_gym_thumb.jpg',
+            self::PingpongThumb => 'https://gstatic.com/classroom/themes/img_pingpong_thumb.jpg',
+            self::FencingThumb => 'https://gstatic.com/classroom/themes/img_fencing_thumb.jpg',
+            self::BoxingThumb => 'https://gstatic.com/classroom/themes/img_boxing_thumb.jpg',
+            self::EconomicsThumb => 'https://gstatic.com/classroom/themes/Economics_thumb.jpg',
+            self::WalkingdogThumb => 'https://gstatic.com/classroom/themes/img_walkingdog_thumb.jpg',
+            self::HobbyThumb => 'https://gstatic.com/classroom/themes/img_hobby_thumb.jpg',
+            self::SailingThumb => 'https://gstatic.com/classroom/themes/img_sailing_thumb.jpg',
+            self::VideogamingThumb => 'https://gstatic.com/classroom/themes/img_videogaming_thumb.jpg',
+            self::CarmaintenanceThumb => 'https://gstatic.com/classroom/themes/img_carmaintenance_thumb.jpg',
+            self::RepairThumb => 'https://gstatic.com/classroom/themes/img_repair_thumb.jpg',
+            self::HikingThumb => 'https://gstatic.com/classroom/themes/img_hiking_thumb.jpg',
+            self::HaircutThumb => 'https://gstatic.com/classroom/themes/img_haircut_thumb.jpg',
+            self::GamenightThumb => 'https://gstatic.com/classroom/themes/img_gamenight_thumb.jpg',
+            self::CampingThumb => 'https://gstatic.com/classroom/themes/img_camping_thumb.jpg',
+            self::OilchangeThumb => 'https://gstatic.com/classroom/themes/img_oilchange_thumb.jpg',
+            self::HandcraftThumb => 'https://gstatic.com/classroom/themes/img_handcraft_thumb.jpg',
+        };
+    }
+}
