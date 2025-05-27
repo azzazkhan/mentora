@@ -6,6 +6,7 @@ use App\Concerns\Eloquent\HasUuid;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Modules\Payment\Models\Transaction;
 
 class Enrollment extends Pivot
 {
@@ -55,5 +56,15 @@ class Enrollment extends Pivot
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the transaction associated with the enrollment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Transaction>
+     */
+    public function transaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

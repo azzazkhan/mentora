@@ -115,7 +115,7 @@ class Classroom extends Model
             ->using(Enrollment::class)
             ->withTimestamps()
             ->as('enrollment')
-            ->withPivot(['enrolled_at', /* 'transaction_id' */]);
+            ->withPivot(['enrolled_at', 'transaction_id']);
     }
 
     /**

@@ -7,6 +7,8 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Payment\Models\Transaction;
+use Modules\Payment\Policies\TransactionPolicy;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -31,7 +33,9 @@ class PaymentServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected array $policies = [];
+    protected array $policies = [
+        Transaction::class => TransactionPolicy::class,
+    ];
 
     /**
      * Register services.
@@ -72,9 +76,10 @@ class PaymentServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }
