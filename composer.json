@@ -76,12 +76,12 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74,#f97316\" \"php artisan serve\" \"php artisan queue:listen --memory=128 --tries=1\" \"php artisan pail --timeout=0\" \"yarn run dev\" \"stripe listen --forward-to localhost:8000/stripe/webhook\" --names=server,queue,logs,vite,stripe"
         ],
         "dev:ssr": [
-            "npm run build:ssr",
+            "yarn run build:ssr",
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74,#f97316\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" \"stripe listen --forward-to localhost:8000/stripe/webhook\" --names=server,queue,logs,ssr,stripe"
         ],
         "test": [
             "@php artisan config:clear --ansi",
