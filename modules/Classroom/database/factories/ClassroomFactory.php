@@ -27,6 +27,7 @@ class ClassroomFactory extends Factory
             'name' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'status' => $status,
+            'fee' => (fake()->numberBetween(1, 20) * 5) * 1000,
 
             'icon' => fake()->imageUrl(),
             'cover' => fake()->imageUrl(),
