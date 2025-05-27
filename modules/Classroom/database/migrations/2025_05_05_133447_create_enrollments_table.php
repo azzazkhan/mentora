@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('enrolled_at')->nullable();
 
-            $table->foreignId('transaction_id')->nullable()->constrained('transactions');
+            $table->foreignId('transaction_id')->nullable()->unique()->constrained('transactions');
 
             $table->timestamps();
 

@@ -22,7 +22,7 @@ trait HasUuid
     public static function bootHasUuid()
     {
         static::creating(function (Model $model): void {
-            $model->{static::$uid_key} = Str::orderedUuid()->toString();
+            $model->{static::$uid_key} ??= Str::orderedUuid()->toString();
         });
     }
 }

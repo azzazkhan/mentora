@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Classroom\Models\Enrollment;
 use Modules\Payment\Database\Factories\TransactionFactory;
 use Modules\Payment\Enums\TransactionStatus;
 
@@ -40,7 +42,9 @@ class Transaction extends Model
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'status' => TransactionStatus::Pending,
+    ];
 
     /**
      * The event map for the model.
@@ -81,6 +85,36 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the user of this transaction.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Enrollment>
+     */
+    public function enrollment(): HasOne
+    {
+        return $this->hasOne(Enrollment::class);
+    }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
+     * Get the route key.
+     *
+     * @return string
+     */
+    public function getRouteKey(): string
+    {
+        return $this->uuid;
     }
 
     /**
