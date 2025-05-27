@@ -23,7 +23,12 @@
             <span class="grow">Home</span>
         </x-layouts.app.sidebar.sidebar-item>
 
-        <x-layouts.app.sidebar.sidebar-item class="!h-11" wire:navigate>
+        <x-layouts.app.sidebar.sidebar-item
+            class="!h-11"
+            wire:navigate
+            href="{{ route('browse') }}"
+            :active="request()->routeIs('browse')"
+        >
             <x-slot:icon class="flex items-center justify-center">
                 <x-phosphor-compass-duotone class="size-5.5" />
             </x-slot:icon>

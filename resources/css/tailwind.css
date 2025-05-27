@@ -156,3 +156,10 @@
 
     max-width: var(--container-width);
 }
+
+.overlapped-text::before {
+    content: '';
+    shape-outside: inset(0);
+
+    @apply float-right h-8 w-22;
+}

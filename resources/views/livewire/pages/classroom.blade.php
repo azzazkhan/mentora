@@ -46,16 +46,17 @@
 
         <div class="grow flex flex-col gap-y-8">
             @foreach ($activities as $activity)
+                <div wire:key="{{ $activity->uuid }}">
+                    @switch ($activity->subject_type)
+                        @case ($types->announcement)
+                            <x-partials.classroom.announcement-item :announcement="$activity->subject" :$classroom />
+                        @break
 
-                @switch ($activity->subject_type)
-                    @case ($types->announcement)
-                        <x-partials.classroom.announcement-item :announcement="$activity->subject" :$classroom />
-                    @break
-
-                    @case ($types->assignment)
-                        <x-partials.classroom.assignment-item :assignment="$activity->subject" :$classroom />
-                    @break
-                @endswitch
+                        @case ($types->assignment)
+                            <x-partials.classroom.assignment-item :assignment="$activity->subject" :$classroom />
+                        @break
+                    @endswitch
+                </div>
 
             @endforeach
         </div>
