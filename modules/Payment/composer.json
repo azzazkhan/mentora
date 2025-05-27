@@ -1,0 +1,21 @@
+{
+    "name": "modules/payment",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Payment\\": "app/",
+            "Modules\\Payment\\Database\\Factories\\": "database/factories/",
+            "Modules\\Payment\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Payment\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}
