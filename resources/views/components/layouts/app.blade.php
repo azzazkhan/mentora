@@ -24,7 +24,11 @@ $pageTitle = isset($title) ? "{$title} &mdash; {$app_name}" : $app_name;
         <div class="min-h-dvh flex items-stretch">
             <x-layouts.app.sidebar />
 
-            <div class="flex-grow h-dvh overflow-y-auto overflow-x-hidden">
+            <div
+                x-data
+                class="flex-grow h-dvh overflow-y-auto overflow-x-hidden ml-80 transition-all"
+                x-bind:class="{ '!ml-0': !$store.layout.sidebar }"
+            >
                 <x-layouts.app.header />
 
                 {{ $slot }}
@@ -35,5 +39,13 @@ $pageTitle = isset($title) ? "{$title} &mdash; {$app_name}" : $app_name;
         @livewireScriptConfig
 
         <x-basecoat />
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('layout', {
+                    sidebar: true,
+                })
+            })
+        </script>
     </body>
 </html>

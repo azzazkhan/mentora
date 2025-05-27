@@ -1,4 +1,8 @@
-<aside class="flex-shrink-0 flex flex-col w-3/12 max-w-80 bg-secondary-100 border-r border-secondary-200 h-dvh overflow-y-auto py-6">
+<aside
+    x-data
+    class="absolute left-0 top-0 flex-shrink-0 flex flex-col w-80 bg-secondary-100 border-r border-secondary-200 h-dvh overflow-y-auto py-6 z-10 transform transition-transform"
+    x-bind:class="{ '-translate-x-full': !$store.layout.sidebar }"
+>
     <a href="{{ url('/') }}" class="flex gap-x-2 mb-10 mx-6">
         <div class="bg-primary-600 flex justify-center items-center aspect-square size-10 overflow-hidden rounded-sm">
             <x-icon-mentora class="size-9 text-white" />
