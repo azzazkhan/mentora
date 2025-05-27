@@ -21,8 +21,8 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        if (config('cashier.enabled')) {
-            $user->updateStripeCustomer();
+        if (config('cashier.enabled') && $user->hasStripeId()) {
+            $user->syncStripeCustomerDetails();
         }
     }
 
@@ -31,7 +31,7 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        if (config('cashier.enabled')) {
+        if (config('cashier.enabled') && $user->hasStripeId()) {
             $user->asStripeCustomer()->delete();
         }
     }
