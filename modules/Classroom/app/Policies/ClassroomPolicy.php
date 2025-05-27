@@ -12,6 +12,18 @@ use Modules\User\Models\Teacher;
 class ClassroomPolicy
 {
     /**
+     * Perform pre-authorization checks.
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->hasRole([Role::SuperAdmin, Role::Admin])) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
