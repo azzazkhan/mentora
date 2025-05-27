@@ -2,12 +2,15 @@
 
 namespace Modules\Classroom\Models;
 
+use App\Concerns\Eloquent\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Activity extends Model
 {
+    use HasUuid;
+
     /**
      * The attributes that are mass assignable.
      *

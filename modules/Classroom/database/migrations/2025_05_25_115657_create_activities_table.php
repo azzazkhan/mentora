@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
 
             $table->morphs('subject');
             $table->foreignId('classroom_id')->constrained();
