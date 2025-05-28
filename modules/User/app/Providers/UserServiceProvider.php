@@ -3,10 +3,13 @@
 namespace Modules\User\Providers;
 
 // use Illuminate\Support\Facades\Schedule;
+
+use App\Models\User;
 use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\User\Observers\UserObserver;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -24,7 +27,9 @@ class UserServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
-    protected array $observers = [];
+    protected array $observers = [
+        User::class => [UserObserver::class],
+    ];
 
     /**
      * The policy mappings for the application.
@@ -72,9 +77,10 @@ class UserServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }

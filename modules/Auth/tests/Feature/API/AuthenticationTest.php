@@ -58,7 +58,7 @@ test('user can authenticate using bearer token', function () {
     $response = $this->withToken($token)->getJson(route('user::api.me.show'));
 
     $response->assertStatus(200)->assertJson(
-        fn(AssertableJson $json) => $json->where('uuid', $user->uuid)->etc(),
+        fn(AssertableJson $json) => $json->where('uuid', (string) $user->uuid)->etc(),
     );
 })->group('api', 'auth', 'login');
 

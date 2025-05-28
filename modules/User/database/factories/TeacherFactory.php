@@ -4,6 +4,7 @@ namespace Modules\User\Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Modules\User\Models\Teacher;
 
 /**
@@ -21,6 +22,7 @@ class TeacherFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => Str::orderedUuid(),
             'specialization' => fake()->words(random_int(1, 3), true),
             'user_id' => User::factory(),
         ];

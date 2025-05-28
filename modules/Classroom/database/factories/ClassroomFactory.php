@@ -3,6 +3,8 @@
 namespace Modules\Classroom\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Classroom\Enums\Classroom\Cover;
+use Modules\Classroom\Enums\Color;
 use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Models\Classroom;
 use Modules\User\Models\Teacher;
@@ -27,10 +29,10 @@ class ClassroomFactory extends Factory
             'name' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'status' => $status,
+            'fee' => (fake()->numberBetween(1, 20) * 5) * 1000,
 
-            'icon' => fake()->imageUrl(),
-            'cover' => fake()->imageUrl(),
-            'color' => random_hex(6),
+            'cover' => fake()->randomElement(Cover::values()),
+            'color' => fake()->randomElement(Color::values()),
 
             'teacher_id' => Teacher::factory(),
         ], $this->getAttributes($status));

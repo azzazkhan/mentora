@@ -15,6 +15,8 @@ use Modules\Assignment\Models\Assignment;
 use Modules\Classroom\Concerns\Eloquent\HasAttributes;
 use Modules\Classroom\Concerns\Eloquent\HasQueryScopes;
 use Modules\Classroom\Database\Factories\ClassroomFactory;
+use Modules\Classroom\Enums\Classroom\Cover;
+use Modules\Classroom\Enums\Color;
 use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Events\ClassroomCreated;
 use Modules\Classroom\Events\ClassroomUpdated;
@@ -32,11 +34,14 @@ class Classroom extends Model
     protected $fillable = [
         'name',
         'description',
-        'icon',
         'cover',
         'color',
-        'start_at',
-        'end_at',
+        'fee',
+        'registration_started_at',
+        'registration_ended_at',
+        'started_at',
+        'ended_at',
+        'teacher_id',
     ];
 
     /**
@@ -53,6 +58,7 @@ class Classroom extends Model
      */
     protected $attributes = [
         'status' => Status::Pending,
+        'color' => Color::Blue,
     ];
 
     /**
@@ -73,6 +79,9 @@ class Classroom extends Model
     protected function casts(): array
     {
         return [
+            'fee' => 'integer',
+            'cover' => Cover::class,
+            'color' => Color::class,
             'status' => Status::class,
             'registration_started_at' => 'datetime',
             'registration_ended_at' => 'datetime',
@@ -113,7 +122,7 @@ class Classroom extends Model
             ->using(Enrollment::class)
             ->withTimestamps()
             ->as('enrollment')
-            ->withPivot(['enrolled_at', /* 'transaction_id' */]);
+            ->withPivot(['enrolled_at', 'transaction_id']);
     }
 
     /**
@@ -134,6 +143,16 @@ class Classroom extends Model
     public function enrolledStudents(): BelongsToMany
     {
         return $this->students()->wherePivotNotNull('enrolled_at');
+    }
+
+    /**
+     * Get the activities for this classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Activity>
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
     }
 
     /**
@@ -181,7 +200,7 @@ class Classroom extends Model
      */
     protected static function booted(): void
     {
-        // ...
+        //
     }
 
     /**

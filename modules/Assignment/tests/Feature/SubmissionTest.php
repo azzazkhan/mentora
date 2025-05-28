@@ -94,27 +94,27 @@ test('student cannot view others submission record', function () {
 })->group('api', 'submission', 'student');
 
 
-test('student can update their submission')->group('api', 'submission', 'student')->skip('work in progress');
-test("student cannot update other student's submissions")->group('api', 'submission', 'student')->skip('work in progress');
-test("student can add attachments to their submission")->group('api', 'submission', 'student')->skip('work in progress');
-test("student can turn in their submission submission")->group('api', 'submission', 'student')->skip('work in progress');
-test("student can turn in submission after due date [constrained]")->group('api', 'submission', 'student')->skip('work in progress');
-test("student cannot turn in submission with no attachments")->group('api', 'submission', 'student')->skip('work in progress');
-test("student cannot turn in submission after due date")->group('api', 'submission', 'student')->skip('work in progress');
+// test('student can update their submission')->group('api', 'submission', 'student')->skip('work in progress');
+// test("student cannot update other student's submissions")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student can add attachments to their submission")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student can turn in their submission submission")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student can turn in submission after due date [constrained]")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student cannot turn in submission with no attachments")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student cannot turn in submission after due date")->group('api', 'submission', 'student')->skip('work in progress');
 
-test("student can turn back their submission")->group('api', 'submission', 'student')->skip('work in progress');
-test("student cannot turn back their submission after due date")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student can turn back their submission")->group('api', 'submission', 'student')->skip('work in progress');
+// test("student cannot turn back their submission after due date")->group('api', 'submission', 'student')->skip('work in progress');
 
-test('teacher can list assignment submissions of their classroom')->group('api', 'submission', '')->skip('work in progress');
-test('teacher cannot list assignment submissions of other classrooms')->group('api', 'submission', '')->skip('work in progress');
-test('teacher can view details of assignment submission of their classroom')->group('api', 'submission', '')->skip('work in progress');
-test('teacher cannot view details of assignment submission of other classroom')->group('api', 'submission', '')->skip('work in progress');
+// test('teacher can list assignment submissions of their classroom')->group('api', 'submission', '')->skip('work in progress');
+// test('teacher cannot list assignment submissions of other classrooms')->group('api', 'submission', '')->skip('work in progress');
+// test('teacher can view details of assignment submission of their classroom')->group('api', 'submission', '')->skip('work in progress');
+// test('teacher cannot view details of assignment submission of other classroom')->group('api', 'submission', '')->skip('work in progress');
 
-test("teacher can update assignment submission of their classrooms")->group('api', 'submission', '')->skip('work in progress');
-test("teacher cannot update assignment submission of other classrooms")->group('api', 'submission', '')->skip('work in progress');
+// test("teacher can update assignment submission of their classrooms")->group('api', 'submission', '')->skip('work in progress');
+// test("teacher cannot update assignment submission of other classrooms")->group('api', 'submission', '')->skip('work in progress');
 
-test("teacher can grade assignment submission")->group('api', 'submission', 'teacher')->skip('work in progress');
-test("teacher cannot grade assignment submission before due date")->group('api', 'submission', 'teacher')->skip('work in progress');
-test("teacher cannot grade missing assignment submission")->group('api', 'submission', 'teacher')->skip('work in progress');
+// test("teacher can grade assignment submission")->group('api', 'submission', 'teacher')->skip('work in progress');
+// test("teacher cannot grade assignment submission before due date")->group('api', 'submission', 'teacher')->skip('work in progress');
+// test("teacher cannot grade missing assignment submission")->group('api', 'submission', 'teacher')->skip('work in progress');
 
-test("late submissions are marked as late")->group('api', 'submission')->skip('work in progress');
+// test("late submissions are marked as late")->group('api', 'submission')->skip('work in progress');

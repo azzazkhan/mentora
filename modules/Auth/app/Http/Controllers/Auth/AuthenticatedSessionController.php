@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Modules\Auth\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\Auth\Enums\Role;
 use Modules\Auth\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
@@ -27,13 +29,19 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = User::query()->where('email', $request->string('email'))->firstOrFail();
+
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher])) {
+            return Inertia::location(route('filament.admin.pages.dashboard'));
+        }
+
+        return Inertia::location(route('dashboard'));
     }
 
     /**

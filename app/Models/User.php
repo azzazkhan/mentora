@@ -5,12 +5,16 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Concerns\Eloquent\HasUuid;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Assignment\Models\Submission;
 use Modules\Attachment\Models\Attachment;
@@ -20,10 +24,10 @@ use Modules\Classroom\Models\Enrollment;
 use Modules\User\Models\Teacher;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasUuid;
+    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, HasUuid;
 
     /**
      * The attributes that are mass assignable.
@@ -69,6 +73,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher]);
+    }
+
     /**
      * Get the teacher associated with the user.
      *
@@ -91,7 +100,7 @@ class User extends Authenticatable
             ->using(Enrollment::class)
             ->withTimestamps()
             ->as('enrollment')
-            ->withPivot(['enrolled_at', /* 'transaction_id' */]);;
+            ->withPivot(['enrolled_at', 'transaction_id']);
     }
 
     /**
@@ -132,6 +141,11 @@ class User extends Authenticatable
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    protected function admin(): Attribute
+    {
+        return Attribute::get(fn() => $this->hasAnyRole([Role::SuperAdmin, Role::Admin]));
     }
 
     /**

@@ -47,7 +47,7 @@ class ShowTestCredentials extends Command
             $token = $user->createToken('dev-login-' . Str::random(16), expiresAt: now()->addDay());
             $role = Role::forUser($user);
 
-            $this->components->info("{$role->value} {$token->plainTextToken} [{$user->uuid}]");
+            $this->components->info("{$role->value} {$token->plainTextToken} [{$user->email}] [{$user->uuid}]");
         }
     }
 }

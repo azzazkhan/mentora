@@ -6,7 +6,9 @@ namespace Modules\Classroom\Providers;
 use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schedule;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Classroom\Console\Commands\UpdateClassroomStatus;
 use Modules\Classroom\Models\Classroom;
 use Modules\Classroom\Policies\ClassroomPolicy;
 
@@ -70,7 +72,9 @@ class ClassroomServiceProvider extends ServiceProvider
 
         $this->bootModule();
 
-        $this->commands([]);
+        $this->commands([
+            UpdateClassroomStatus::class,
+        ]);
     }
 
     /**
@@ -79,7 +83,7 @@ class ClassroomServiceProvider extends ServiceProvider
     protected function registerScheduledTasks(): void
     {
         $this->app->booted(function () {
-            // Schedule::command('inspire')->daily();
+            Schedule::command(UpdateClassroomStatus::class)->everyThirtySeconds();
         });
     }
 }

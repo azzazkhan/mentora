@@ -4,16 +4,18 @@ namespace Modules\Attachment\Models;
 
 use App\Concerns\Eloquent\HasUuid;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Attachment\Database\Factories\AttachmentFactory;
 
 class Attachment extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, Prunable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +28,7 @@ class Attachment extends Model
         'mime_type',
         'disk',
         'path',
+        'user_id',
     ];
 
     /**
@@ -69,6 +72,20 @@ class Attachment extends Model
     protected static function newFactory(): Factory
     {
         return new AttachmentFactory;
+    }
+
+    /**
+     * Get the prunable model query.
+     */
+    public function prunable(): Builder
+    {
+        return static::query()
+            ->where(function (Builder $query) {
+                $query
+                    ->where('attachable_type', null)
+                    ->orWhere('attachable_id', null);
+            })
+            ->where('created_at', '<=', now()->subHours(12));
     }
 
     /**
