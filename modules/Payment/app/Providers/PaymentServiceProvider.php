@@ -7,6 +7,10 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Laravel\Cashier\Events\WebhookReceived;
+use Modules\Payment\Listeners\HandleStripeCheckout;
+use Modules\Payment\Listeners\HandleStripeCheckoutFailure;
+use Modules\Payment\Listeners\HandleStripeCheckoutSuccess;
 use Modules\Payment\Models\Transaction;
 use Modules\Payment\Policies\TransactionPolicy;
 
@@ -19,7 +23,12 @@ class PaymentServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
-    protected array $listen = [];
+    protected array $listen = [
+        WebhookReceived::class => [
+            HandleStripeCheckoutSuccess::class,
+            HandleStripeCheckoutFailure::class
+        ],
+    ];
 
     /**
      * The model observers for your application.
