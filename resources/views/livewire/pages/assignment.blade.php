@@ -45,7 +45,9 @@
                     </div>
                 </div>
 
-                <p class="text-muted-foreground text-sm whitespace-pre-wrap my-4">{{ $assignment->description }}</p>
+                <p class="text-muted-foreground text-sm my-4">
+                    {{ str($assignment->description)->toHtmlString() }}
+                </p>
             </div>
         </div>
 

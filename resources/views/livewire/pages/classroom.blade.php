@@ -30,7 +30,7 @@
             @if ($classroom->description)
                 <div class="px-10 py-6 shadow" x-show="description" x-cloak x-collapse>
                     <p class="text-muted-foreground text-sm">
-                        {{ $classroom->description }}
+                        {{ str($classroom->description)->toHtmlString() }}
                     </p>
                 </div>
             @endif

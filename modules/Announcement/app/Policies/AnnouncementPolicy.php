@@ -26,8 +26,12 @@ class AnnouncementPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user, Classroom $classroom): bool
+    public function viewAny(User $user, Classroom $classroom = null): bool
     {
+        if (! $classroom) {
+            return true;
+        }
+
         if ($user->hasRole([Role::SuperAdmin, Role::Admin])) {
             return true;
         }
@@ -58,8 +62,12 @@ class AnnouncementPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, Classroom $classroom): bool
+    public function create(User $user, Classroom $classroom = null): bool
     {
+        if (! $classroom) {
+            return true;
+        }
+
         if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
             return true;
         }

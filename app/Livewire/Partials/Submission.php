@@ -84,6 +84,7 @@ class Submission extends Component
     public function status()
     {
         return match (true) {
+            ! is_null($this->submission->grade) => ['label' => "Graded {$this->submission->grade}/100", 'color' => 'text-green-600'],
             $this->missing() => ['label' => 'Missing', 'color' => 'text-red-500'],
             $this->submission->is_late => ['label' => 'Turned In Late', 'color' => ''],
             $this->turnedIn() => ['label' => 'Turned In', 'color' => ''],

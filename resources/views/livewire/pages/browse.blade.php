@@ -22,7 +22,7 @@
                 </div>
                 <div class="p-4 h-56 flex flex-col">
                     <p class="text-sm text-muted-foreground overlapped-text line-clamp-5">
-                        {{ $classroom->description }}
+                        {{ str($classroom->description)->toHtmlString() }}
                     </p>
 
                     <div class="mt-auto flex flex-col gap-y-4 pt-4">

@@ -12,8 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Modules\Auth\Enums\Role;
 use Modules\Classroom\Enums\Classroom\Cover;
+use Modules\Classroom\Enums\Color as ClassroomColor;
 use Modules\Classroom\Models\Classroom;
+use Modules\User\Models\Teacher;
 
 class ClassroomResource extends Resource
 {
@@ -36,7 +40,11 @@ class ClassroomResource extends Resource
                             ->columnSpanFull()
                             ->columns(['xl' => 2])
                             ->schema([
-                                Forms\Components\TextInput::make('name')->rules(['required'])->columnSpanFull(),
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->rules(['required', 'max:50'])
+                                    ->columnSpanFull(),
+
                                 Forms\Components\RichEditor::make('description')
                                     ->disableToolbarButtons([
                                         'attachFiles',
@@ -46,6 +54,40 @@ class ClassroomResource extends Resource
                                         'h3',
                                     ])
                                     ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('fee')
+                                    ->numeric()
+                                    ->required()
+                                    ->rules(['required', 'numeric', 'min:1', 'max:2147483']),
+
+                                Forms\Components\Select::make('teacher_id')
+                                    ->relationship(
+                                        name: 'teacher',
+                                        titleAttribute: 'users.name',
+                                        modifyQueryUsing: fn(Builder $query) => $query->with('user'),
+                                    )
+                                    ->getOptionLabelFromRecordUsing(fn(Teacher $record) => $record->user->name)
+                                    ->searchable()
+                                    ->preload(),
+
+                                Forms\Components\DateTimePicker::make('registration_started_at')
+                                    ->required()
+                                    ->rules(['required', 'date'])
+                                    ->native(false),
+
+                                Forms\Components\DateTimePicker::make('registration_ended_at')
+                                    ->required()
+                                    ->rules(['required', 'date'])
+                                    ->native(false),
+
+                                Forms\Components\DateTimePicker::make('started_at')
+                                    ->required()
+                                    ->rules(['required', 'date'])
+                                    ->native(false),
+
+                                Forms\Components\DateTimePicker::make('ended_at')
+                                    ->rules(['date'])
+                                    ->native(false),
                             ]),
                     ]),
 
@@ -59,6 +101,17 @@ class ClassroomResource extends Resource
                             ->schema([
                                 Forms\Components\Select::make('cover')
                                     ->options(Cover::class)
+                                    ->native(false)
+                                    ->columnSpanFull(),
+                            ]),
+
+                        Forms\Components\Section::make('Color')
+                            ->columnSpan(['xl' => 1])
+                            ->columns(['xl' => 1])
+                            ->schema([
+                                Forms\Components\Select::make('color')
+                                    ->options(ClassroomColor::class)
+                                    ->native(false)
                                     ->columnSpanFull(),
                             ]),
                     ]),
@@ -107,6 +160,17 @@ class ClassroomResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole(Role::Teacher)) {
+            return parent::getEloquentQuery()->where('teacher_id', $user->teacher->getKey());
+        }
+
+        return parent::getEloquentQuery();
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -121,6 +185,7 @@ class ClassroomResource extends Resource
         return [
             'index' => Pages\ListClassrooms::route('/'),
             'create' => Pages\CreateClassroom::route('/create'),
+            'view' => Pages\ViewClassroom::route('/{record}'),
             'edit' => Pages\EditClassroom::route('/{record}/edit'),
         ];
     }

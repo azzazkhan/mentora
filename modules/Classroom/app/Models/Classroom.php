@@ -36,8 +36,12 @@ class Classroom extends Model
         'description',
         'cover',
         'color',
-        'start_at',
-        'end_at',
+        'fee',
+        'registration_started_at',
+        'registration_ended_at',
+        'started_at',
+        'ended_at',
+        'teacher_id',
     ];
 
     /**
@@ -54,6 +58,7 @@ class Classroom extends Model
      */
     protected $attributes = [
         'status' => Status::Pending,
+        'color' => Color::Blue,
     ];
 
     /**

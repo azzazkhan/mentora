@@ -16,7 +16,7 @@ class ClassroomPolicy
      */
     public function before(User $user, string $ability): bool|null
     {
-        if ($user->hasRole([Role::SuperAdmin, Role::Admin])) {
+        if ($user->hasRole([Role::SuperAdmin, Role::Admin]) && ! in_array($ability, ['delete'])) {
             return true;
         }
 
@@ -28,7 +28,7 @@ class ClassroomPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin]);
+        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher]);
     }
 
     /**
@@ -36,13 +36,9 @@ class ClassroomPolicy
      */
     public function view(User $user, Classroom $classroom): bool
     {
-        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin])) {
-            return true;
-        }
-
         // Teacher can view classrooms assigned to them
         if ($user->hasRole(Teacher::class)) {
-            return $classroom->teacher()->is($user->teacher);
+            return dd('view', $classroom->teacher()->is($user->teacher));
         }
 
         // Open classrooms can be accessible by anyone
@@ -67,7 +63,7 @@ class ClassroomPolicy
      */
     public function update(User $user, Classroom $classroom): bool
     {
-        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin]);
+        return false;
     }
 
     /**

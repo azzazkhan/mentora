@@ -37,7 +37,9 @@
                 </div>
             </div>
 
-            <p class="text-muted-foreground text-sm whitespace-pre-wrap my-4">{{ $announcement->content }}</p>
+            <p class="text-muted-foreground text-sm my-4">
+                {{ str($announcement->content)->toHtmlString() }}
+            </p>
         </div>
     </div>
 </x-page>

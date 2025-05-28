@@ -26,5 +26,6 @@ Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
 
 
 Route::get('login', fn() => response()->redirectToRoute('auth::login'))->name('login');
+Route::get('lorem', fn() => to_route('filament.admin.pages.dashboard'))->name('filament.admin.resources.assignments.index');
 
 // require __DIR__ . '/settings.php';

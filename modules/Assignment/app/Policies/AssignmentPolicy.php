@@ -27,7 +27,7 @@ class AssignmentPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin]);
+        return $user->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher]);
     }
 
     /**
@@ -68,8 +68,12 @@ class AssignmentPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, Classroom $classroom)
+    public function create(User $user, Classroom $classroom = null)
     {
+        if (! $classroom) {
+            return true;
+        }
+
         return $classroom->teacher()->is($user->teacher);
     }
 

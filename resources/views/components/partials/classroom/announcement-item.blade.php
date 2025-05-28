@@ -51,5 +51,7 @@
         </x-dropdown>
     </div>
 
-    <p class="text-muted-foreground text-sm whitespace-pre-wrap mt-4">{{ $announcement->content }}</p>
+    <p class="text-muted-foreground text-sm mt-4">
+        {{ str($announcement->content)->toHtmlString() }}
+    </p>
 </div>

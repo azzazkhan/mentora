@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ClassroomResource\RelationManagers;
 
+use App\Filament\Resources\AssignmentResource\Pages\ViewAssignment;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -9,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\Announcement\Models\Announcement;
 use Modules\Assignment\Models\Assignment;
 
 class AssignmentsRelationManager extends RelationManager
@@ -48,7 +50,6 @@ class AssignmentsRelationManager extends RelationManager
                     ])
                     ->default('false')
                     ->native(false),
-
             ]);
     }
 
@@ -58,6 +59,11 @@ class AssignmentsRelationManager extends RelationManager
             ->recordTitleAttribute('title')
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable(),
+                Tables\Columns\TextColumn::make('due_date')
+                    ->since()
+                    ->tooltip(function (Assignment $record) {
+                        return sprintf('%s (UTC)', carbon($record->created_at)->format('M jS Y \a\t g:i A'));
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
                     ->tooltip(function (Assignment $record) {
@@ -71,6 +77,7 @@ class AssignmentsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()->url(fn(Assignment $record) => route(ViewAssignment::getRouteName(), ['record' => $record])),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -78,7 +85,10 @@ class AssignmentsRelationManager extends RelationManager
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(function (Builder $query) {
+                return $query->with('teacher');
+            });
     }
 
     public function isReadOnly(): bool

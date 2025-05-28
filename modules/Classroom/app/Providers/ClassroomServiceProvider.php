@@ -83,7 +83,7 @@ class ClassroomServiceProvider extends ServiceProvider
     protected function registerScheduledTasks(): void
     {
         $this->app->booted(function () {
-            Schedule::command(UpdateClassroomStatus::class)->everyTenSeconds()->withoutOverlapping();
+            Schedule::command(UpdateClassroomStatus::class)->everyThirtySeconds();
         });
     }
 }
