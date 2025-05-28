@@ -319,4 +319,14 @@ enum Cover: string implements HasLabel
             self::Handcraft => 'Handcraft',
         };
     }
+
+    public function getOriginalPath(): string
+    {
+        return url('images/covers/' . basename(parse_url($this->getOriginalUrl(), PHP_URL_PATH)));
+    }
+
+    public function getThumbnailPath(): string
+    {
+        return url('images/covers/' . basename(parse_url($this->getThumbnailUrl(), PHP_URL_PATH)));
+    }
 }

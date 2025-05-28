@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Artisan::call(ResetStripeCustomers::class);
+        // Artisan::call(ResetStripeCustomers::class);
 
         User::withoutEvents(function () {
             User::factory()

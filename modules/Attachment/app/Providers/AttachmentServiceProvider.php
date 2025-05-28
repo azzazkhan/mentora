@@ -7,6 +7,8 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Attachment\Events\AttachmentCreated;
+use Modules\Attachment\Listeners\GenerateSummary;
 
 class AttachmentServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,11 @@ class AttachmentServiceProvider extends ServiceProvider
      *
      * @var array<class-string, array<int, class-string>>
      */
-    protected array $listen = [];
+    protected array $listen = [
+        AttachmentCreated::class => [
+            GenerateSummary::class,
+        ],
+    ];
 
     /**
      * The model observers for your application.
@@ -72,9 +78,10 @@ class AttachmentServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }

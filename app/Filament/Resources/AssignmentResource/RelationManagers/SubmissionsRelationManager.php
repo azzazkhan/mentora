@@ -5,14 +5,17 @@ namespace App\Filament\Resources\AssignmentResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 use Modules\Assignment\Enums\Submission\Status;
 use Modules\Assignment\Models\Submission;
+use Modules\Attachment\Models\Attachment;
 
 class SubmissionsRelationManager extends RelationManager
 {
@@ -32,6 +35,15 @@ class SubmissionsRelationManager extends RelationManager
                 Infolists\Components\TextEntry::make('grade')->formatStateUsing(fn(int|null $state) => $state ? $state : 'N/A'),
                 Infolists\Components\TextEntry::make('submitted_at')->since()->dateTimeTooltip(),
 
+                RepeatableEntry::make('attachments')
+                    ->schema([
+                        Infolists\Components\TextEntry::make('name')
+                            ->url(fn(Attachment $record) => Storage::disk($record->disk)->url($record->path))
+                            ->columnSpanFull(),
+                        Infolists\Components\TextEntry::make('summary.content')
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
                 // Infolists\Components\TextEntry::make('due_date')->since()->dateTimeTooltip(),
                 // Infolists\Components\TextEntry::make('allow_late')->badge()->color(fn(bool $state) => $state ? 'danger' : 'gray')->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No'),
                 // Infolists\Components\TextEntry::make('edited')->badge()->color(fn(bool $state) => $state ? 'warning' : 'gray')->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No'),
@@ -39,7 +51,7 @@ class SubmissionsRelationManager extends RelationManager
                 // Infolists\Components\TextEntry::make('classroom.name')->label('Classroom'),
                 // Infolists\Components\TextEntry::make('created_at')->since()->dateTimeTooltip()->label('Created'),
                 // Infolists\Components\TextEntry::make('updated_at')->since()->dateTimeTooltip()->label('Updated')->visible(fn(Assignment $record) => $record->edited),
-            ]);;
+            ]);
     }
 
     public function table(Table $table): Table
@@ -77,7 +89,7 @@ class SubmissionsRelationManager extends RelationManager
                 Tables\Actions\ViewAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {
-                return $query->with('user');
+                return $query->with(['user', 'attachments' => ['summary']]);
             });
     }
 }

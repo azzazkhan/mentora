@@ -7,8 +7,8 @@
             x-bind:class="{ 'shadow-lg': description }"
         >
             <div
-                class="h-52 px-10 py-6 flex justify-between items-end gap-x-10 rounded-2xl bg-cover bg-center"
-                style="background-image: url('{{ $classroom->cover->getOriginalUrl() }}')"
+                class="h-52 px-10 py-6 flex justify-between items-end gap-x-10 rounded-2xl bg-blue-800 bg-cover bg-center"
+                style="background-image: url('{{ $classroom->cover->getOriginalPath() }}')"
             >
                 <h1 class="text-3xl font-bold line-clamp-2 leading-snug grow text-white">
                     {{ $classroom->name }}

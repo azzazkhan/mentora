@@ -5,7 +5,7 @@
                 wire:key="{{ $classroom->uuid }}"
                 class="flex flex-col rounded-xl overflow-hidden border border-muted shadow transition-all hover:shadow-lg"
             >
-                <div class="relative flex flex-col h-30 justify-between bg-cover bg-center p-4 text-white" style="background-image: url('{{ $classroom->cover->getThumbnailUrl() }}')">
+                <div class="relative flex flex-col h-30 justify-between bg-cover bg-center p-4 text-white" style="background-image: url('{{ $classroom->cover->getThumbnailPath() }}')">
                     <h3 class="text-xl font-medium truncate">{{ $classroom->name }}</h3>
 
                     <span class="text-sm truncate mr-24">

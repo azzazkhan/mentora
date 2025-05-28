@@ -10,8 +10,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Modules\Assignment\Models\Summary;
 use Modules\Attachment\Database\Factories\AttachmentFactory;
+use Modules\Attachment\Events\AttachmentCreated;
 
 class Attachment extends Model
 {
@@ -50,7 +53,9 @@ class Attachment extends Model
      *
      * @var array<string, string>
      */
-    protected $dispatchesEvents = [];
+    protected $dispatchesEvents = [
+        'created' => AttachmentCreated::class,
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -106,6 +111,16 @@ class Attachment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the summary for this attachment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Summary>
+     */
+    public function summary(): HasOne
+    {
+        return $this->hasOne(Summary::class);
     }
 
     /**
