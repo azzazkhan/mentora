@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\Auth\Enums\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -45,6 +46,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if ($user->hasAnyRole([Role::SuperAdmin, Role::Admin, Role::Teacher])) {
+            return Inertia::location(route('filament.admin.pages.dashboard'));
+        }
 
         return Inertia::location(route('dashboard'));
     }
