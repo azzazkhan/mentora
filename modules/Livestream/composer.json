@@ -1,0 +1,21 @@
+{
+    "name": "modules/livestream",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Livestream\\": "app/",
+            "Modules\\Livestream\\Database\\Factories\\": "database/factories/",
+            "Modules\\Livestream\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Livestream\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}
