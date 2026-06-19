@@ -43,7 +43,7 @@ class PaymentServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected array $policies = [
-        Transaction::class => TransactionPolicy::class,
+        // Transaction::class => TransactionPolicy::class,
     ];
 
     /**

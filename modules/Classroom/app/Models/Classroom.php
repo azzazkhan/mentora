@@ -20,6 +20,7 @@ use Modules\Classroom\Enums\Color;
 use Modules\Classroom\Enums\Status;
 use Modules\Classroom\Events\ClassroomCreated;
 use Modules\Classroom\Events\ClassroomUpdated;
+use Modules\Livestream\Models\Livestream;
 use Modules\User\Models\Teacher;
 
 class Classroom extends Model
@@ -173,6 +174,16 @@ class Classroom extends Model
     public function assignments(): HasMany
     {
         return $this->hasMany(Assignment::class);
+    }
+
+    /**
+     * Get the livestreams for this classroom.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Livestream>
+     */
+    public function livestreams(): HasMany
+    {
+        return $this->hasMany(Livestream::class);
     }
 
     /**

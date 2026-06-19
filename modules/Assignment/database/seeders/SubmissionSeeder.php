@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Sleep;
 use Modules\Assignment\Models\Assignment;
 use Modules\Assignment\Models\Submission;
 use Modules\Attachment\Models\Attachment;
@@ -18,6 +19,9 @@ class SubmissionSeeder extends Seeder
      */
     public function run(): void
     {
+        return;
+        // Sleep::for(10)->seconds();
+
         Classroom::all()->each(function (Classroom $classroom) {
             $students = $classroom->enrolledStudents()->get();
 
@@ -29,11 +33,11 @@ class SubmissionSeeder extends Seeder
                     $students->random($count)->each(function (User $student) use ($assignment) {
                         $submission = $assignment->submissions()->where('user_id', $student->getKey())->firstOrFail();
 
-                        Attachment::factory()
-                            ->count(random_int(1, 3))
-                            ->for($submission, 'attachable')
-                            ->for($student, 'user')
-                            ->create();
+                        // Attachment::factory()
+                        //     ->count(random_int(1, 3))
+                        //     ->for($submission, 'attachable')
+                        //     ->for($student, 'user')
+                        //     ->create();
                     });
                 });
         });

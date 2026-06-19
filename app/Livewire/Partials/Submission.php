@@ -26,7 +26,18 @@ class Submission extends Component
         $user = Auth::user();
 
         $this->assignment = $assignment;
-        $this->submission = $assignment->submissions()->where('user_id', $user->getKey())->firstOrFail();
+        $this->submission = $assignment
+            ->submissions()
+            ->where('user_id', $user->getKey())
+            ->firstOr(function () use ($assignment, $user) {
+                $submission = new SubmissionModel();
+                $submission->user()->associate($user);
+                $submission->assignment()->associate($assignment);
+                $submission->save();
+
+                return $submission;
+            });
+
         $this->attachments = $this->submission->attachments;
     }
 

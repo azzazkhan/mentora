@@ -52,7 +52,7 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
                     ->sortable()
-                    ->formatStateUsing(fn(Transaction $record) => strtoupper($record->currency) . ' ' . number_format($record->amount / 100)),
+                    ->formatStateUsing(fn(Transaction $record) => strtoupper($record->currency) . ' ' . number_format($record->amount)),
 
                 Tables\Columns\TextColumn::make('status')->badge(),
 

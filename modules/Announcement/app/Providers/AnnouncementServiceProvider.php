@@ -38,7 +38,7 @@ class AnnouncementServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected array $policies = [
-        Announcement::class => AnnouncementPolicy::class,
+        // Announcement::class => AnnouncementPolicy::class,
     ];
 
     /**

@@ -12,6 +12,7 @@ use Modules\Assignment\Database\Seeders\SubmissionSeeder;
 use Modules\Auth\Console\Commands\SyncRolesAndPermissions;
 use Modules\Classroom\Database\Seeders\ClassroomSeeder;
 use Modules\Classroom\Database\Seeders\EnrollmentSeeder;
+use Modules\Livestream\Database\Seeders\LivestreamSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             AnnouncementSeeder::class,
             AssignmentSeeder::class,
             SubmissionSeeder::class,
+            LivestreamSeeder::class,
         ]);
     }
 

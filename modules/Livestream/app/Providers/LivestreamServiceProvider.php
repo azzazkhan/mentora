@@ -7,6 +7,8 @@ use Azzazkhan\ModularLaravel\Providers\ServiceProvider;
 use Azzazkhan\ModularLaravel\Services\LivewireService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Modules\Livestream\Models\Livestream;
+use Modules\Livestream\Policies\LivestreamPolicy;
 
 class LivestreamServiceProvider extends ServiceProvider
 {
@@ -31,7 +33,9 @@ class LivestreamServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected array $policies = [];
+    protected array $policies = [
+        // Livestream::class => LivestreamPolicy::class,
+    ];
 
     /**
      * Register services.
@@ -72,9 +76,10 @@ class LivestreamServiceProvider extends ServiceProvider
     /**
      * Register scheduled tasks.
      */
-     protected function registerScheduledTasks(): void {
-         $this->app->booted(function () {
-             // Schedule::command('inspire')->daily();
-         });
-     }
+    protected function registerScheduledTasks(): void
+    {
+        $this->app->booted(function () {
+            // Schedule::command('inspire')->daily();
+        });
+    }
 }

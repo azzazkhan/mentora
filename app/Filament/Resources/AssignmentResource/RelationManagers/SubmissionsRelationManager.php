@@ -92,4 +92,9 @@ class SubmissionsRelationManager extends RelationManager
                 return $query->with(['user', 'attachments' => ['summary']]);
             });
     }
+
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
 }

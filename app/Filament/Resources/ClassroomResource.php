@@ -177,6 +177,7 @@ class ClassroomResource extends Resource
             RelationManagers\AnnouncementsRelationManager::class,
             RelationManagers\AssignmentsRelationManager::class,
             RelationManagers\StudentsRelationManager::class,
+            RelationManagers\LivestreamsRelationManager::class,
         ];
     }
 

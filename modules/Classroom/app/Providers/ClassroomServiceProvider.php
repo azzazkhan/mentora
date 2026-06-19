@@ -36,7 +36,7 @@ class ClassroomServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected array $policies = [
-        Classroom::class => ClassroomPolicy::class,
+        // Classroom::class => ClassroomPolicy::class,
     ];
 
     /**

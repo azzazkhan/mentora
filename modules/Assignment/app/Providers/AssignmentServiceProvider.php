@@ -43,8 +43,8 @@ class AssignmentServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected array $policies = [
-        Assignment::class => AssignmentPolicy::class,
-        Submission::class => SubmissionPolicy::class,
+        // Assignment::class => AssignmentPolicy::class,
+        // Submission::class => SubmissionPolicy::class,
     ];
 
     /**

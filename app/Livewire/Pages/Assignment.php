@@ -11,13 +11,11 @@ class Assignment extends Component
     public Classroom $classroom;
     public AssignmentModel $assignment;
 
-    public function mount(Classroom $classroom, AssignmentModel $assignment)
+    public function mount(AssignmentModel $assignment)
     {
-        $this->classroom = $classroom;
-        $this->classroom->load(['teacher' => ['user']]);
 
-        $this->assignment = $assignment;
-        $this->assignment->load('attachments');
+        $this->assignment = $assignment->load('attachments');
+        $this->classroom = $assignment->classroom->load(['teacher' => ['user']]);
     }
 
     public function render()

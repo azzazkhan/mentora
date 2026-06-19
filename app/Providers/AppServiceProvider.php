@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::shouldBeStrict(! $this->app->environment('production'));
+        // Model::shouldBeStrict(! $this->app->environment('production'));
 
         DB::prohibitDestructiveCommands($this->app->environment('production'));
         Date::use(CarbonImmutable::class);

@@ -100,14 +100,15 @@ class UserResource extends Resource
 
                 Tables\Columns\TextColumn::make('email')->searchable(),
 
-                Tables\Columns\TextColumn::make('role')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->badge()
-                    ->color(fn(User $record) => $record->hasAnyRole([Role::SuperAdmin, Role::Admin]) ? Color::Red : Color::Gray),
+                    ->color(fn(User $record) => $record->hasAnyRole([Role::SuperAdmin, Role::Admin]) ? Color::Red : Color::Gray)
+                    ->formatStateUsing(fn(User $record) => $record->roles->first()->name),
 
-                Tables\Columns\TextColumn::make('verified')
+                Tables\Columns\TextColumn::make('email_verified_at')
                     ->badge()
-                    ->formatStateUsing(fn(User $record) => $record->verified ? 'Verified' : 'Unverified')
-                    ->color(fn(User $record) => $record->verified ? Color::Green : Color::Orange),
+                    ->formatStateUsing(fn(User $record) => $record->email_verified_at ? 'Verified' : 'Unverified')
+                    ->color(fn(User $record) => $record->email_verified_at ? Color::Green : Color::Orange),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
@@ -122,10 +123,13 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
+            ])
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->with('roles');
+            });
     }
 
     public static function getRelations(): array

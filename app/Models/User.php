@@ -21,6 +21,7 @@ use Modules\Attachment\Models\Attachment;
 use Modules\Auth\Enums\Role;
 use Modules\Classroom\Models\Classroom;
 use Modules\Classroom\Models\Enrollment;
+use Modules\Payment\Models\Transaction;
 use Modules\User\Models\Teacher;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -141,6 +142,16 @@ class User extends Authenticatable implements FilamentUser
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get the transactions for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Transaction>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     protected function admin(): Attribute

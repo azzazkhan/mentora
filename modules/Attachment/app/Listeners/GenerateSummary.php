@@ -3,15 +3,15 @@
 namespace Modules\Attachment\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Storage;
-use Log;
 use Modules\Attachment\Events\AttachmentCreated;
 use Prism\Prism\Enums\Provider;
 use Prism\Prism\Prism;
 use Prism\Prism\ValueObjects\Messages\Support\Document;
 use Prism\Prism\ValueObjects\Messages\UserMessage;
 
-class GenerateSummary implements ShouldQueue
+class GenerateSummary
 {
     /**
      * Create the event listener.
@@ -56,7 +56,7 @@ class GenerateSummary implements ShouldQueue
             'content' => $response->text,
         ]);
 
-        Log::debug($response->text, [
+        FacadesLog::debug($response->text, [
             'assignment' => $event->attachment->uuid,
         ]);
     }
